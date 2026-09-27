@@ -90,6 +90,11 @@ field in the same action — the mirror image of a requirement's `Steps` field.
   - `tests/tests.md` for the test index.
   - Feature entries and steps are indexed the same way, in
     `features/features.md` and `steps/steps.md`.
+  - Every one of these indexes is regenerated from the artifact files by
+    `catalyst index regen` (`CODE-OF-CONDUCT.md` §3), never hand-edited.
+    Roadmaps are the exception: their items are rows of hand-edited
+    tables (`naming: free-form`), and `development/roadmaps/roadmaps.md`
+    is kept by the `/roadmap-*` commands.
 - **This is a hard requirement.** `development/BACKLOG.md` always
   exists — seeded from `templates/backlog.template.md` on first deploy —
   as the go-to document for developers to review work to be done and
@@ -145,7 +150,10 @@ field of their own — see `Rules-of-Rules.md` `rr-META-009`.
 Per `Rules-of-Rules.md` `rr-META-006`: `(BUG|REQ|HK|TEST)-(NNNNNN)-(userid)`,
 global per type, sequential, zero-padded 6 digits, never reused, plus the
 signer's `userid` suffix (`rr-META-020`, INV-26), under
-`CODE-OF-CONDUCT.md` §6's naming rule. Example:
+`CODE-OF-CONDUCT.md` §6's naming rule. Every ID of this module's types —
+`STEP-`, `FEAT-` and `RM-` included — comes from
+`catalyst id next <PREFIX> --as <signer>`, never from reading an index by
+hand. Example:
 `BUG-000001-Ab3xR9pQ-login-form-validation` or
 `BUG-000001-Ab3xR9pQ-login-form-validation.md`, and
 `REQ-000002-Ab3xR9pQ-password-reset-flow` or
@@ -177,7 +185,11 @@ vice versa (`CODE-OF-CONDUCT.md` §8).
 
 ## 4. Slash-command entry points
 
-This module contributes the following slash commands:
+This module contributes the following slash commands. Each one that
+creates or changes an artifact allocates IDs with `catalyst id next`, and
+ends with `CODE-OF-CONDUCT.md` §4's common steps: `catalyst index regen`,
+`catalyst journal append`, and `catalyst check` where no end-of-turn hook
+runs it.
 
 - `/create-bug` — create a new bug artifact immediately, register it in
   `bugs/bugs.md`, and track it in the same workflow as any other bug.
@@ -223,20 +235,26 @@ This module contributes the following slash commands:
   active `development/roadmaps/<name>.md`'s Status/Linked columns from
   the `FEAT-`/`REQ-` each row is linked to.
 
-When the user enters `/create-bug: ...`, create a new bug artifact immediately,
-register it in `bugs/bugs.md`, and track it in the same workflow as any other
-bug. If the domain cannot be inferred from context, prompt for the domain and
-rule before creating the artifact.
+When the user enters `/create-bug: ...`, create a new bug artifact immediately
+with the ID from `catalyst id next BUG --as <signer>`, register it in
+`bugs/bugs.md` (`catalyst index regen`), and track it in the same workflow as
+any other bug. If the domain cannot be inferred from context, prompt for the
+domain and rule before creating the artifact. Journal it with
+`catalyst journal append --command /create-bug --action create`, its
+`Targets` as `--target`s.
 
 When the user enters `/create-req:` or `/create-requirement: ...`, create a
-new requirement artifact immediately, register it in
-`requirements/requirements.md`, and track it in the same workflow. If the
-domain or target rule cannot be inferred, prompt for both before creating the
-artifact.
+new requirement artifact immediately with the ID from
+`catalyst id next REQ --as <signer>`, register it in
+`requirements/requirements.md` (`catalyst index regen`), and track it in the
+same workflow. If the domain or target rule cannot be inferred, prompt for
+both before creating the artifact. Journal it with
+`catalyst journal append --action create`, its `Targets` as `--target`s.
 
 When the user enters `/create-test: ...`, create a new test artifact
-immediately using `templates/test.template.md`, register it in
-`tests/tests.md`, and track it in the same workflow as any other development
+immediately using `templates/test.template.md` and the ID from
+`catalyst id next TEST --as <signer>`, register it in
+`tests/tests.md` (`catalyst index regen`), and track it in the same workflow as any other development
 artifact. If the domain or target rule cannot be inferred, prompt for both
 before creating the artifact — a test is not exempt from `CODE-OF-CONDUCT.md`
 §1 ("no development without a targeted rule"). If the user names one or more
@@ -246,11 +264,15 @@ each named requirement's/step's own `Tests` field (creating that field if this
 is its first test); if `<REQ-id>`/`<STEP-id>` doesn't resolve to an existing
 artifact, refuse with a clear message rather than citing a dangling id. Both
 fields are optional — a test naming neither is valid as long as
-`Targets`/`Domain` are still set.
+`Targets`/`Domain` are still set. Journal it with
+`catalyst journal append --action create`, covering the test file, every
+requirement/step file whose `Tests` field changed, and the regenerated
+indexes.
 
 When the user enters `/create-feature: ...`, create a new feature entry
-immediately using `templates/features.template.md`, register it in
-`features/features.md`, and track it as idea/roadmap content, not
+immediately using `templates/features.template.md` and the ID from
+`catalyst id next FEAT --as <signer>`, register it in
+`features/features.md` (`catalyst index regen`), and track it as idea/roadmap content, not
 rule-linked development work. Do not prompt for a domain or rule target —
 neither field exists on this artifact type. If this feature formalizes an
 existing roadmap row (in any `development/roadmaps/<name>.md`), cite that
@@ -262,19 +284,25 @@ domain/target rule as usual), link it back to the `FEAT-NNNNNN` entry's
 `Requirement(s)` field, and **append** (never replace) that `REQ-NNNNNN` to
 the roadmap row's `Linked` list — a feature may reasonably decompose into
 more than one requirement, each added to `Linked` as it's opened, per
-`Rules-of-Rules.md` `rr-META-021`.
+`Rules-of-Rules.md` `rr-META-021`. Roadmap rows are edited in place by
+hand. Journal the change with `catalyst journal append --action create`
+(no `--target`: features are not rule-linked), covering the feature file,
+the index and any roadmap file touched.
 
 When the user enters `/create-step <REQ-id|BUG-id>: ...`, refuse with a
 clear message if `<REQ-id|BUG-id>` doesn't resolve to an existing file
 under `requirements/` or `development/bugs/`. Otherwise create a new
-step immediately using `templates/step.template.md`, register it in
-`steps/steps.md`, set its `Parent` field to `<REQ-id|BUG-id>`, and
+step immediately using `templates/step.template.md` and the ID from
+`catalyst id next STEP --as <signer>`, register it in
+`steps/steps.md` (`catalyst index regen`), set its `Parent` field to `<REQ-id|BUG-id>`, and
 append its own `STEP-NNNNNN` ID to that parent's `Steps` field (creating
 the field if this is its first step). Do not prompt for a domain or rule
 target — neither field exists on this artifact type; it inherits
 `<REQ-id|BUG-id>`'s own `Targets`/`Domain`. New steps start `Status:
 planned` unless the user says
-work is already underway, in which case `in-progress`.
+work is already underway, in which case `in-progress`. Journal it with
+`catalyst journal append --action create`, covering the step file, the
+parent file and the regenerated index.
 
 When the user enters `/roadmap-add <name> <file>: ...`, refuse with a clear
 message if `development/roadmaps/<name>.md` already exists (point to
@@ -284,9 +312,13 @@ local filesystem, identify its distinct items, and create
 one `RM-NNNNNN` row per item (`Description`: a sentence or two summarizing
 the item, drawn from `<file>` — not a restatement of `Title`; `Status: Not
 triaged`, `Linked: *(none)*`), IDs continuing the global sequence across
-every existing named roadmap — never reused, never guessed. Register the
-new roadmap in `development/roadmaps/roadmaps.md`, then report the
-roadmap name and the IDs assigned.
+every existing named roadmap — never reused, never guessed: the first
+from `catalyst id next RM --as <signer>`, the rest consecutive from it in
+the same write. Register the new roadmap in
+`development/roadmaps/roadmaps.md` (a hand-edited row — roadmaps have no
+generated index), journal it with
+`catalyst journal append --action create`, then report the roadmap name
+and the IDs assigned.
 
 When the user enters `/roadmap-remove <name>`, refuse with a clear message
 if `development/roadmaps/<name>.md` does not exist. If every row's `Linked`
@@ -295,19 +327,23 @@ report that. If any row has a non-empty `Linked` field, do **not** delete
 anything — instead add a `Retired` field (today's date) to the file, mark
 its `roadmaps.md` entry `retired`, leave every row and `RM-NNNNNN` ID exactly
 as they are, and tell the user it was retired rather than removed because
-removing it would break a live `FEAT-`/`REQ-` cross-reference.
+removing it would break a live `FEAT-`/`REQ-` cross-reference. Either way,
+journal it with `catalyst journal append --action retire` covering the
+roadmap file and `roadmaps.md`.
 
 When the user enters `/roadmap-update <name> <file>: ...`, refuse with a
 clear message if `development/roadmaps/<name>.md` does not exist (point to
 `/roadmap-add`). Otherwise treat `<file>` as the new full, authoritative
 version of this roadmap: add a new `RM-NNNNNN` row for each item not already
-present (with its own `Description`, same rule as `/roadmap-add`), update
+present (with its own `Description`, same rule as `/roadmap-add`, numbered
+from `catalyst id next RM`), update
 the `Title`/`Description`/`Notes` of any row that matches an item in
 `<file>` by title/description similarity (ask the user rather than
 guessing when a match is ambiguous), and flag — in `Notes`, never by
 deleting — any existing row whose item no longer appears in `<file>`.
-Update the file's `Source` and `Last updated` fields, then report a short
-summary of what was added/updated/flagged.
+Update the file's `Source` and `Last updated` fields, journal it with
+`catalyst journal append --action update`, then report a short summary of
+what was added/updated/flagged.
 
 When the user enters `/roadmap-merge <name> <update file>: ...`, refuse
 with a clear message if `development/roadmaps/<name>.md` does not exist
@@ -315,11 +351,12 @@ with a clear message if `development/roadmaps/<name>.md` does not exist
 delta, not the full roadmap: apply the same add/update matching rule as
 `/roadmap-update` for only the items `<update file>` actually contains,
 but do not compare against or flag any row it doesn't mention, and do not
-change the `Source` field — only `Last updated`. Report a short summary of
+change the `Source` field — only `Last updated`. Journal it with
+`catalyst journal append --action update`, then report a short summary of
 what was added/updated.
 
-When the user enters `/show-backlog`, inspect the current artifact indexes
-(open bugs by severity, in-progress/proposed requirements, work items with no
+When the user enters `/show-backlog`, run `catalyst index regen`, then
+inspect the current artifact indexes (open bugs by severity, in-progress/proposed requirements, work items with no
 linked `REQ-`/`BUG-` doc, rules with no open work targeting them, feature
 ideas with no requirement yet, and every `development/roadmaps/<name>.md`
 not marked `Retired`, rows grouped by roadmap name then Status),
@@ -331,7 +368,9 @@ names (if any — it's a list, not a single id) and set `Status` to
 `Not triaged` (nothing linked) / `Triaged` (only a `FEAT-` linked) /
 `In progress` (at least one linked `REQ-` isn't yet `done`) / `Done`
 (every linked `REQ-` is `done`) accordingly, leaving `Title`/`Notes`/`Source`
-untouched — and also report the same summary to the user in this turn. No
+untouched; journal any roadmap row whose `Status` changed with
+`catalyst journal append --action status-change` — and also report the
+same summary to the user in this turn. No
 file write is optional — a stale `BACKLOG.md`, or any roadmap file that
 doesn't match the last `/show-backlog` run, is itself a bug in the
 deployment.
