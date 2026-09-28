@@ -12,11 +12,11 @@
 
 ## Open bugs
 
-{{BUG-NNNNNN items grouped by Severity (Critical/High/Medium/Low), or "*(none)*" if empty}}
+{{BUG-NNNNNN items not in a closed state — Status `Open`/`Under Review`/`Fixed` — grouped by Severity (`Critical`/`High`/`Medium`/`Low`), or "*(none)*" if empty}}
 
-## In-progress / proposed requirements
+## Open requirements
 
-{{REQ-NNNNNN items with Status proposed/approved/in-progress, or "*(none)*"}}
+{{REQ-NNNNNN items not in a closed state — Status `Draft`/`Proposed`/`Vetted`/`Active` — grouped by Status, or "*(none)*"}}
 
 ## Work items missing links
 

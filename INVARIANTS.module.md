@@ -19,7 +19,7 @@ module's definitions and in the deployed `Rules-of-Rules.md`.
   the chain reads `epic → story → task → REQ`/`BUG`/`HK` → rule → domain;
   without one, `REQ`/`BUG`/`HK` chains directly to rule → domain, the same
   way house-keeping's "no rule applies" is already a legitimate, explicit
-  answer.
+  answer. A chore (INV-27) carries no artifact and, explicitly, no rule.
 - **INV-9 — Requirements, not bugs, for new work.** `FEAT-` entries are
   non-rule-linked roadmap. When work on one starts it becomes a `REQ-` (never a
   `BUG-`), which is vetted against every rule, assigned a domain, and measured.
@@ -43,22 +43,20 @@ module's definitions and in the deployed `Rules-of-Rules.md`.
   creator/signer's `userid` as a trailing `-XXXXXXXX` suffix, assigned once
   at creation and never changed thereafter, appended after the zero-padded
   sequence number (`Rules-of-Rules.md` rr-META-020).
-- **INV-27 — Steps record a requirement's or bug's actual implementation
-  work.** `STEP-NNNNNN` (`templates/step.template.md`) names exactly one
-  parent — a `REQ-NNNNNN` or a `BUG-NNNNNN`, the `Parent` field — and
-  records one concrete unit of implementation work performed toward it —
-  files touched, commands run, how it was verified. Its own top-level
-  `steps/` folder, sibling of `requirements/`, full INV-20 treatment.
-  Exempt from the chain invariant's rule-targeting requirement (INV-5)
-  the same way `FEAT-`/`RM-` are — it inherits its parent's
-  already-vetted rule target rather than asserting one of its own. Both
-  the requirement and bug templates carry a `Steps` field listing every
-  step opened against that instance; neither is closeable as `done`/
-  `fixed` until every one of its steps is `done` or `abandoned`
-  (`Rules-of-Rules.md` rr-META-021). A roadmap row's `Linked` field is a
-  list, not a single ID: a roadmap item of real size
-  is expected to decompose into more than one requirement, each
-  accumulating its own steps.
+- **INV-27 — Ceremony follows the tier; steps record the work.** Every
+  change is a tier, stated before it starts and escalated if it grows
+  (kernel `CODE-OF-CONDUCT.md` §9): a **chore** (no rule's behaviour
+  changes) has no artifact — one journal entry, `--tier chore`, no
+  targets; a **fix** (restores a documented rule's behaviour) is a `BUG-`
+  targeting that rule, steps optional; a **feature** (new or changed
+  behaviour) is a `REQ-`, with steps opened as the work happens and at
+  least one before it closes (`Steps` is `required_when_closed`).
+  `STEP-NNNNNN` names exactly one parent (`Parent`: a `REQ-` or `BUG-`),
+  records one concrete unit of work toward it, lives in `steps/` (full
+  INV-20 treatment) and inherits its parent's rule target (exempt from
+  INV-5's targeting). No requirement or bug reaches a closed state
+  (`Completed`/`Abandoned`, `Closed`/`WontFix`) while one of its steps is open (`Rules-of-Rules.md` rr-META-021). A
+  roadmap row's `Linked` field is a list.
 - **INV-28 — Tests are development artifacts with optional (0,n) links.**
   `TEST-NNNNNN` (`templates/test.template.md`) joined the
   `(BUG|REQ|HK|TEST)` development-artifact format at framework `0.30.0`

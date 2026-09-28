@@ -22,6 +22,11 @@ The module supplies the dev-artifact layer of catalyst's chain
 is `rule`: `REQ-`/`BUG-`/`HK-`/`TEST-` artifacts each target (or propose) a
 rule, which belongs to a domain.
 
+- **Ceremony tiers.** Every change is a **chore** (no rule's behaviour
+  changes: one journal entry, no artifact), a **fix** (a `BUG-` restoring
+  a documented rule, steps optional) or a **feature** (a `REQ-` with at
+  least one step before it closes). The agent states the tier before
+  starting and escalates if the change grows (INV-27).
 - **Features and roadmaps.** Sitting above the chain, `FEAT-NNNNNN`
   feature entries (`features/`) are a separate, optional,
   **non-rule-linked** layer — a place to write down new or future app
@@ -38,8 +43,9 @@ rule, which belongs to a domain.
 - **Steps.** Below a requirement or a bug, `STEP-NNNNNN` records
   (`steps/`) are one concrete unit of implementation work — files touched,
   commands run, how it was verified — created via `/create-step` as work
-  happens. A requirement or bug isn't closeable as done/fixed until every
-  step opened against it is done or abandoned (INV-27).
+  happens. A requirement needs at least one before it closes; a bug's are
+  optional. Neither reaches a closed state until every step opened
+  against it is done or abandoned (INV-27).
 - **Tests.** `TEST-NNNNNN` records (`tests/`) are a fourth rule-targeting
   dev-artifact type, created via `/create-test` with their own
   `Targets`/`Domain`. A test may also name `(0,n)` requirements and

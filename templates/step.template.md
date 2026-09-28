@@ -12,7 +12,7 @@
 | **Name** | short descriptive summary of what this step does, e.g. `parse-corpus-fixtures` — follows Rules of Rules naming conventions |
 | **Filename** | descriptive kebab-case filename, e.g. `STEP-000001-Ab3xR9pQ-parse-corpus-fixtures.md` — prefer specific work over generic labels like `step.md` or `work.md` |
 | **Parent** | `REQ-NNNNNN` or `BUG-NNNNNN` this step implements — **required, never empty, exactly one** |
-| **Status** | planned / in-progress / done / abandoned |
+| **Status** | exactly one of `planned` / `in-progress` / `done` / `abandoned` (the step ETD's `allowed_values`, lowercase; starts `planned`; `done` and `abandoned` are its closed states) |
 | **Opened** | YYYY-MM-DD |
 | **Closed** | YYYY-MM-DD — blank until `done` or `abandoned` |
 | **Tests** | `TEST-NNNNNN` list of tests that verify this step — empty until `/create-test` names it; back-populated automatically, never hand-edited (`Rules-of-Rules.md` §22) |

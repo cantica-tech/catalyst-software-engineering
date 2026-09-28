@@ -23,12 +23,12 @@ more rules. None of those three are optional.
 | **ID** | `REQ-NNNNNN-<userid>` — the userid suffix is the resolved signer's (`Rules-of-Rules.md` §20) |
 | **Name** | short descriptive summary of the requirement's purpose, e.g. `password-reset-flow` — follows Rules of Rules naming conventions |
 | **Filename** | descriptive kebab-case filename, e.g. `REQ-000002-Ab3xR9pQ-password-reset-flow.md` — prefer specific problem/context over generic labels like `requirement.md` or `auth.md` |
-| **Status** | proposed / approved / in-progress / done / rejected |
+| **Status** | exactly one of `Draft` / `Proposed` / `Vetted` / `Active` / `Completed` / `Abandoned` (the requirement ETD's `allowed_values`; starts `Draft`; `Completed` and `Abandoned` are its closed states) |
 | **Opened** | YYYY-MM-DD |
 | **Targets** | one or more rule IDs this requirement implements or extends — **required, never empty** (see `CODE-OF-CONDUCT.md` §1). If none exist yet, define them first (see New rules proposed below) |
 | **Domain** | the `DOMAIN` code(s) of the targeted/new rule(s), from `{{RULES_DIR}}/domains/` — **required, never free text** |
 | **Feature** | `FEAT-NNNNNN`, if this requirement was motivated by a documented feature — omit if none |
-| **Steps** | `STEP-NNNNNN` list, in creation order, opened against this requirement (`Rules-of-Rules.md` §21) — empty while implementation hasn't started; not closeable as `done` until every listed step is `done` or `abandoned` |
+| **Steps** | `STEP-NNNNNN` list, in creation order, opened against this requirement (`Rules-of-Rules.md` §21) — empty while implementation hasn't started. A requirement is feature-tier work (`CODE-OF-CONDUCT.md` §3): it cannot be in a closed state (`Completed`/`Abandoned`) with this field empty — `catalyst validate` reports that as `closed-incomplete` — and does not close until every listed step is `done` or `abandoned` (`Rules-of-Rules.md` §21) |
 | **Tests** | `TEST-NNNNNN` list of tests that verify this requirement — empty until `/create-test` names it; back-populated automatically, never hand-edited (`Rules-of-Rules.md` §22) |
 | **Signed-off-by** | name of the registered user (`IAM/users/users.json`) who signed this requirement — see `CODE-OF-CONDUCT.md` §2 |
 
@@ -98,3 +98,37 @@ Capture any requirements that affect the interface in a specific UI area.
   specific screen or component based on user selections or state.
 - **Initialization Rules**: sets default values for a specific form or
   screen state.
+
+## Business rules
+
+Capture the domain or workflow constraints that govern the feature.
+
+- ...
+- ...
+
+## Non-functional requirements
+
+- **Accessibility**: ...
+- **Security**: ...
+- **Performance**: ...
+- **Observability**: ...
+
+## Design / implementation plan
+
+Brief — files touched, approach.
+
+## Test plan
+
+Per rule targeted or introduced, the specific test that will cover it.
+Guidance, not a tool-enforced closing condition: a rule with no covering
+test is not verified, whether or not the code exists — plan the tests
+the module's test rules call for (`CODE-OF-CONDUCT.md` §3) before
+moving this requirement to `Completed`.
+
+## Open questions
+
+- ...
+
+## Related
+
+Other `BUG-`/`REQ-`/`HK-`/`FEAT-`/`TEST-` IDs, or rule IDs.
