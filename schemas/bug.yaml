@@ -2,6 +2,7 @@ id_prefix: BUG
 name: Bug
 plural_name: Bugs
 folder: bugs
+location: development
 grounding: required
 grounding_field: Targets
 
@@ -18,6 +19,14 @@ fields:
       - Fixed
       - Closed
       - WontFix
+  - name: Severity
+    kind: enum
+    required: false
+    allowed_values:
+      - Critical
+      - High
+      - Medium
+      - Low
   - name: Targets
     kind: ref-list
     required: true

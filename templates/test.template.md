@@ -12,7 +12,7 @@ see `Rules-of-Rules.md` §22.
 | **ID** | `TEST-NNNNNN-<userid>` — the userid suffix is the resolved signer's (`Rules-of-Rules.md` §20) |
 | **Name** | short descriptive summary of what this test verifies, e.g. `password-reset-token-expiry` — follows Rules of Rules naming conventions |
 | **Filename** | descriptive kebab-case filename, e.g. `TEST-000003-Ab3xR9pQ-password-reset-token-expiry.md` — prefer specific problem/context over generic labels like `test.md` or `check.md` |
-| **Status** | proposed / passing / failing / blocked |
+| **Status** | exactly one of `Draft` / `Active` / `Passing` / `Failing` / `Disabled` (the test ETD's `allowed_values`; starts `Draft`; `Passing` is its closed state) |
 | **Opened** | YYYY-MM-DD |
 | **Targets** | one or more rule IDs this test verifies — **required, never empty** (see `rules-of-development.md` §1) |
 | **Domain** | the `DOMAIN` code(s) of the targeted rule(s), from `rules/domains/` — **required, never free text** |

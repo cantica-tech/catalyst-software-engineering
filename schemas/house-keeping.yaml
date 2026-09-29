@@ -2,6 +2,7 @@ id_prefix: HK
 name: House-keeping
 plural_name: House-keeping Items
 folder: house-keeping
+location: development
 grounding: required
 grounding_field: Targets
 

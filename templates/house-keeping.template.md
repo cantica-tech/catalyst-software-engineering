@@ -9,7 +9,7 @@ verifiable/documented, even indirectly.
 |---|---|
 | **ID** | `HK-NNNNNN-<userid>` — the userid suffix is the resolved signer's (`Rules-of-Rules.md` §20) |
 | **Name** | short descriptive summary summarizing the house-keeping item's purpose, e.g. `dependency-cleanup` — follows Rules of Rules naming conventions |
-| **Status** | proposed / in-progress / done / abandoned |
+| **Status** | exactly one of `Open` / `Completed` (the house-keeping ETD's `allowed_values`; starts `Open`; `Completed` is its closed state) |
 | **Priority** | High / Medium / Low — how urgently this blocks or de-risks other work |
 | **Opened** | YYYY-MM-DD |
 | **Targets** | the rule ID(s) this work supports the enforcement/verification/documentation of. If genuinely none applies, state that explicitly rather than leaving the field blank |

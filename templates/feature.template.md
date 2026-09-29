@@ -24,7 +24,7 @@ it exists.
 | **ID** | `FEAT-NNNNNN-<userid>` — the userid suffix is the resolved signer's (`Rules-of-Rules.md` §20) |
 | **Name** | short descriptive summary summarizing the feature's purpose, e.g. `bulk-export` — follows Rules of Rules naming conventions |
 | **Filename** | descriptive kebab-case filename, e.g. `FEAT-000004-Ab3xR9pQ-bulk-export.md` — prefer specific product intent over generic labels like `feature.md` or `export.md` |
-| **Status** | idea / proposed / planned / in-development / shipped / dropped |
+| **Status** | exactly one of `Draft` / `Triaged` / `Active` / `Completed` / `Abandoned` (the feature ETD's `allowed_values`; starts `Draft`; `Completed` and `Abandoned` are its closed states) |
 | **Opened** | YYYY-MM-DD |
 | **Area** | free-text product/functional area label |
 | **Roadmap** | `RM-NNNNNN` this feature was triaged from, if any — empty if it didn't originate from an ingested `development/roadmaps/<name>.md` item |

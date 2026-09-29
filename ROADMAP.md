@@ -78,7 +78,7 @@ Convert hardcoded prose definitions of all 9 software engineering entities into 
 - `TEST` (Test case schema, target requirements/bugs, execution criteria).
 - `STEP` (Step schema, parent requirement/bug).
 - `FEAT` (Feature schema, requirement links).
-- `RM` (Risk Management schema).
+- `RM` (Roadmap item schema: rows of a named roadmap).
 - `WORKFLOW` (Workflow specification schema).
 - `RECON` (Reconciliation item schema).
 

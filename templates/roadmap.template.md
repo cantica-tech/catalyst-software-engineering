@@ -37,8 +37,10 @@
 
 - **Not triaged** — ingested; no `FEAT-`/`REQ-` for it yet (`Linked` empty).
 - **Triaged** — a `FEAT-NNNNNN` exists for this item (see its `Roadmap` field); `Linked` names only that `FEAT-`.
-- **In progress** — at least one `REQ-NNNNNN` is linked and at least one of them isn't yet `done`.
-- **Done** — **every** linked `REQ-NNNNNN` is `done`.
+- **In progress** — at least one `REQ-NNNNNN` is linked and at least one of them isn't yet in a closed state (`Completed`/`Abandoned`).
+- **Done** — **every** linked `REQ-NNNNNN` is in a closed state (`Completed`/`Abandoned`).
+
+These four are the roadmap ETD's `allowed_values`, exactly as spelled; `Done` is its only closed state.
 
 ## How this file is maintained
 

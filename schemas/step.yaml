@@ -20,7 +20,7 @@ fields:
   - name: Parent
     kind: ref
     required: true
-    target_type: REQ
+    target_type: REQ|BUG
 
 workflow:
   initial: planned

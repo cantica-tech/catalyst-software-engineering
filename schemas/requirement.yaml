@@ -41,6 +41,7 @@ fields:
     kind: ref-list
     required: false
     target_type: STEP
+    required_when_closed: true
 
 workflow:
   initial: Draft

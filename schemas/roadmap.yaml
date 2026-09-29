@@ -2,6 +2,7 @@ id_prefix: RM
 name: Roadmap
 plural_name: Roadmaps
 folder: roadmaps
+location: development
 naming: free-form
 grounding: none
 
