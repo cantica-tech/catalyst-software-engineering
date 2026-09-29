@@ -417,3 +417,19 @@ same summary to the user in this turn. No
 file write is optional — a stale `BACKLOG.md`, or any roadmap file that
 doesn't match the last `/show-backlog` run, is itself a bug in the
 deployment.
+
+When `/adopt` accepts a product change committed outside catalyst, the
+tier decides what it becomes, as for any change (§3, "Ceremony tiers"):
+a **chore** is only the adopted journal entry (`catalyst journal adopt
+<commit> --tier chore`, no target); a **fix** needs the `BUG-` targeting
+the rule it restores (`/create-bug`), and a **feature** the `REQ-`
+targeting or proposing its rules (`/create-requirement`) with at least
+one `STEP-` recording the commit's work (`/create-step`), each adopted
+with `--tier fix`/`--tier feature --target <BUG-id|REQ-id>`. These
+artifacts are written after the work, which `INVARIANTS.md` INV-29
+otherwise forbids, so they say so rather than pretending otherwise: each
+records `Adopted from commit <sha>, written outside catalyst by <author>`
+in its body, a step starts `done` instead of `planned`, and the dates are
+the day of adoption, never back-dated. When the commit changes tested
+code and adds no test, say so to the user and propose a `/create-test`;
+never mark the gap closed on the commit's behalf.
