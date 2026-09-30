@@ -1,8 +1,9 @@
 id: software-engineering
 name: Software Engineering Process Module
-version: 2.3.0
+version: 2.3.1
 description: Standard software engineering process module governing requirements, bugs, house-keeping, tests, steps, features, and roadmaps.
 grounding_type: rule
+kernel_version: ">=0.42.0"
 
 entity_types:
   - id: BUG
