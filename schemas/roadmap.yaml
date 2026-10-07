@@ -19,9 +19,9 @@ fields:
       - In progress
       - Done
   - name: Linked
-    kind: ref
+    kind: ref-list
     required: false
-    target_type: FEAT
+    target_type: FEAT|REQ
 
 workflow:
   initial: Not triaged

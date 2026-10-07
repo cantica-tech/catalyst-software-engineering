@@ -1,8 +1,8 @@
 # `RM-NNNNNN` roadmap — template
 
 > Copy this file to `development/roadmaps/templates/TEMPLATE-ROADMAP-v1.md`
-> on first deploy (see `INSTANTIATION-GUIDE.md` and `INVARIANTS.md`
-> INV-15, INV-20), the same way every other `TEMPLATE-<TYPE>-vN.md` seeds
+> on first deploy (see `INSTANTIATION-GUIDE.md` and `INVARIANTS.module.md`
+> INV-15 and `INVARIANTS.md` INV-20), the same way every other `TEMPLATE-<TYPE>-vN.md` seeds
 > its type. `/roadmap-add
 > <name> <file>` then copies *this* template to
 > `development/roadmaps/<name>.md` each time a new named roadmap is
@@ -72,7 +72,7 @@ These four are the roadmap ETD's `allowed_values`, exactly as spelled; `Done` is
   inside catalyst, at which point `/create-feature` opens its `FEAT-NNNNNN`
   (citing this row's `RM-NNNNNN` ID in the feature's own `Roadmap` field).
 - From there, the normal `FEAT-` → `REQ-` promotion applies
-  (`Rules-of-Rules.md` §9/§10/§21, `INVARIANTS.md` INV-9) — one or more
+  (`Rules-of-Rules.md` §9/§10/§21, `INVARIANTS.module.md` INV-9) — one or more
   times, once per requirement the item decomposes into; this file's
   `Status`/`Linked` columns always mirror every artifact currently linked,
   refreshed by `/show-backlog` — never edited here directly.

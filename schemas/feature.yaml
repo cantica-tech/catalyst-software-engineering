@@ -17,6 +17,14 @@ fields:
       - Active
       - Completed
       - Abandoned
+  - name: Roadmap
+    kind: ref
+    required: false
+    target_type: RM
+  - name: Requirement(s)
+    kind: ref-list
+    required: false
+    target_type: REQ
 
 workflow:
   initial: Draft

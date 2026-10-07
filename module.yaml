@@ -1,6 +1,6 @@
 id: software-engineering
 name: Software Engineering Process Module
-version: 2.3.1
+version: 2.4.0
 description: Standard software engineering process module governing requirements, bugs, house-keeping, tests, steps, features, and roadmaps.
 grounding_type: rule
 kernel_version: ">=0.42.0"
@@ -88,7 +88,7 @@ templates:
 
 definitions:
   - entity_type: BUG
-    path: definitions/bug/DEFINITION-BUG-v1.md
+    path: definitions/bug/DEFINITION-BUG-v2.md
   - entity_type: REQ
     path: definitions/requirement/DEFINITION-REQUIREMENT-v1.md
   - entity_type: HK
@@ -96,13 +96,13 @@ definitions:
   - entity_type: TEST
     path: definitions/test/DEFINITION-TEST-v1.md
   - entity_type: STEP
-    path: definitions/step/DEFINITION-STEP-v1.md
+    path: definitions/step/DEFINITION-STEP-v2.md
   - entity_type: FEAT
     path: definitions/feature/DEFINITION-FEATURE-v1.md
   - entity_type: RM
     path: definitions/roadmap/DEFINITION-ROADMAP-v1.md
   - entity_type: backlog
-    path: definitions/backlog/DEFINITION-BACKLOG-v1.md
+    path: definitions/backlog/DEFINITION-BACKLOG-v2.md
 
 # Paths every deployment must carry (enforced by catalyst's check_deployment.py).
 required_paths:

@@ -9,6 +9,7 @@ verifiable/documented, even indirectly.
 |---|---|
 | **ID** | `HK-NNNNNN-<userid>` — the userid suffix is the resolved signer's (`Rules-of-Rules.md` §20) |
 | **Name** | short descriptive summary summarizing the house-keeping item's purpose, e.g. `dependency-cleanup` — follows Rules of Rules naming conventions |
+| **Filename** | descriptive kebab-case filename, e.g. `HK-000003-Ab3xR9pQ-dependency-cleanup.md` — prefer specific work over generic labels like `hk.md` or `cleanup.md` |
 | **Status** | exactly one of `Open` / `Completed` (the house-keeping ETD's `allowed_values`; starts `Open`; `Completed` is its closed state) |
 | **Priority** | High / Medium / Low — how urgently this blocks or de-risks other work |
 | **Opened** | YYYY-MM-DD |

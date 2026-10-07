@@ -21,7 +21,7 @@ fields:
       - WontFix
   - name: Severity
     kind: enum
-    required: false
+    required: true
     allowed_values:
       - Critical
       - High

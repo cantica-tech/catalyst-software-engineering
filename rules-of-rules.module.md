@@ -48,7 +48,7 @@ requirement as every other artifact and work-item ID (`INSTANTIATION-GUIDE.md`
 §1): the name and filename are `FEAT-NNNNNN-<short-summary>` /
 `FEAT-NNNNNN-<short-summary>.md`, never the bare ID. Stored one file per
 entry under `features/`, indexed in `features/features.md`, using the
-module's `templates/features.template.md` → the current
+module's `templates/feature.template.md` → the current
 `features/templates/TEMPLATE-FEATURE-vN.md`.
 
 A feature entry documents a possible future capability — an idea or
@@ -318,7 +318,7 @@ name requirements, steps, both, or neither.
 
 **Back-referenced, like a requirement's `Steps` list.** A requirement
 gains a `Tests` field, and a step gains a `Tests` field
-(the module's `templates/requirements.template.md`,
+(the module's `templates/requirement.template.md`,
 `templates/step.template.md`) — each the list of `TEST-NNNNNN` that name
 it, in creation order. `/create-test` populates both sides in one
 action: it fills the new test's own `Requirements`/`Steps` fields, and
