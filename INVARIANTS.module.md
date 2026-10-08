@@ -62,7 +62,7 @@ module's definitions and in the deployed `Rules-of-Rules.md`.
   `(BUG|REQ|HK|TEST)` development-artifact format at framework `0.30.0`
   — unlike `STEP-`/`FEAT-`/`RM-`, it is **not** exempt from the chain
   invariant (INV-5): a test always carries its own `Targets`/`Domain`
-  and is subject to `rules-of-development.md` §1. Its own top-level
+  and is subject to `CODE-OF-CONDUCT.md` §1. Its own top-level
   `tests/` folder, sibling of `requirements/`/`steps/`, full INV-20
   treatment. Two additional, independent `(0,n)` fields — `Requirements`
   (zero or more `REQ-NNNNNN`) and `Steps` (zero or more `STEP-NNNNNN`)

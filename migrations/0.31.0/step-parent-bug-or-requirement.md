@@ -16,7 +16,7 @@ way it already could against a requirement. The bug template
 (`templates/bug.template.md`) gains its own `Steps` field, the same
 back-reference list a requirement already carries, and a bug is now
 subject to the same "not closeable until every listed step is `done`/
-`abandoned`" gate a requirement already had (`rules-of-development.md`
+`abandoned`" gate a requirement already had (`CODE-OF-CONDUCT.md`
 §7). `/create-step` accepts either kind of id.
 
 | Old | New |
