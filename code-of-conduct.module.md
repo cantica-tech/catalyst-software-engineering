@@ -397,11 +397,13 @@ change the `Source` field — only `Last updated`. Journal it with
 what was added/updated.
 
 When the user enters `/show-backlog`, run `catalyst index regen`, then
-inspect the current artifact indexes (open bugs — Status `Open`/`Under Review`/`Fixed` — by severity, open
-requirements — Status `Draft`/`Proposed`/`Vetted`/`Active` —, work items with no
-linked `REQ-`/`BUG-` doc, rules with no open work targeting them, feature
-ideas with no requirement yet, and every `development/roadmaps/<name>.md`
-not marked `Retired`, rows grouped by roadmap name then Status),
+`catalyst backlog --json` — open work per type and status (open bugs are
+`Open`/`Under Review`/`Fixed`, open requirements `Draft`/`Proposed`/`Vetted`/`Active`),
+open items missing a required link, rules no open work targets — and
+`catalyst list BUG --json` (open bugs grouped by `Severity`) and
+`catalyst list FEAT --json` (features whose `Requirement(s)` is empty); add
+every `development/roadmaps/<name>.md` not marked `Retired`, rows grouped by
+roadmap name then Status;
 **overwrite `development/BACKLOG.md` in full** with the result (from
 `templates/backlog.template.md`'s structure, with a refreshed timestamp),
 **also refresh every active `development/roadmaps/<name>.md`** in place —
