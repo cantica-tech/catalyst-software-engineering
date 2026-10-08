@@ -35,6 +35,7 @@ fields:
     kind: ref-list
     required: false
     target_type: STEP
+    backref: Tests
 
 workflow:
   initial: Draft
