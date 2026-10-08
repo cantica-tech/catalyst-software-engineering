@@ -13,7 +13,7 @@ features. Per `Rules-of-Rules.md` §9, this scheme is separate from the
 `BUG-`/`REQ-`/`HK-` development-artifact chain.
 
 Once work on a feature actually starts, open a `REQ-NNNNNN` requirement
-(see [`requirements.template.md`](requirements.template.md)) that
+(see [`requirement.template.md`](requirement.template.md)) that
 targets or proposes the rule(s) the feature requires. The requirement —
 not this entry — is what gets vetted against existing rules, assigned a
 domain, and measured for completion. Link the requirement back here once

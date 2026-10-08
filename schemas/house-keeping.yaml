@@ -16,6 +16,13 @@ fields:
     allowed_values:
       - Open
       - Completed
+  - name: Priority
+    kind: enum
+    required: false
+    allowed_values:
+      - High
+      - Medium
+      - Low
   - name: Targets
     kind: ref-list
     required: true

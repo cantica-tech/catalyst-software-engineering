@@ -14,7 +14,7 @@ version: "3"
 
 tasks:
   create-bug:
-    desc: "Create a new bug artifact and register it in bugs/bugs.md"
+    desc: "Create a new bug artifact and register it in development/bugs/bugs.md"
     cmds:
       - '{{.AGENT_CMD}} "/create-bug {{.CLI_ARGS}}"'
 

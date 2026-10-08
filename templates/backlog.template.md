@@ -6,7 +6,7 @@
 > from the real indexes. Hand-editing it is pointless — the next
 > `/show-backlog` run replaces whatever you wrote. See
 > catalyst's `framework/kernel/rules-of-development.template.md` (composed with this module's `code-of-conduct.module.md`)
-> §2 and `INVARIANTS.md` INV-14.
+> §3 and this module's `INVARIANTS.module.md` INV-14.
 
 **Last refreshed:** {{DATE}} by `/show-backlog`.
 

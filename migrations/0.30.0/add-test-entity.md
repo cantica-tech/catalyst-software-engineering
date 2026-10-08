@@ -11,7 +11,7 @@
 New core entity, `TEST-NNNNNN` (`templates/test.template.md`,
 `Rules-of-Rules.md` §22, `INVARIANTS.md` INV-28): a fourth member of the
 `(BUG|REQ|HK|TEST)` development-artifact format — unlike `STEP-`/`FEAT-`/
-`RM-`, **not** exempt from `rules-of-development.md` §1 ("no development
+`RM-`, **not** exempt from `CODE-OF-CONDUCT.md` §1 ("no development
 without a targeted rule"): a test always carries its own `Targets`/
 `Domain`, vetted the same way a bug or requirement is. On top of that, a
 test may independently name `(0,n)` requirements and `(0,n)` steps it

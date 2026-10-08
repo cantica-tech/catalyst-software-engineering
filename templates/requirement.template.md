@@ -12,7 +12,7 @@ raised when behavior is incorrect.
 This is also the artifact to open when a **new feature** needs to be
 developed — never a `BUG-NNNNNN` for that (a bug asserts an existing rule
 doesn't hold; a requirement introduces or extends behavior). A `FEAT-NNNNNN`
-entry (see [`features.template.md`](features.template.md)) may have
+entry (see [`feature.template.md`](feature.template.md)) may have
 motivated it, but a requirement stands on its own: it must be vetted
 against every existing rule document before it's opened, it always
 carries a `Domain`, and it always answers — targets or proposes — one or

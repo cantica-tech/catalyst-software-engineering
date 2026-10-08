@@ -2,7 +2,7 @@
 
 A development artifact like `BUG-`/`REQ-`/`HK-`: always carries its own
 `Targets`/`Domain`, vetted the same way (`Rules-of-Rules.md` §1
-conflict check, `rules-of-development.md` §1 — no development without a
+conflict check, `CODE-OF-CONDUCT.md` §1 — no development without a
 targeted rule). `Requirements`/`Steps` are additional, independent,
 optional `(0,n)` links to whichever `REQ-`/`STEP-` this test verifies —
 see `Rules-of-Rules.md` §22.
@@ -14,7 +14,7 @@ see `Rules-of-Rules.md` §22.
 | **Filename** | descriptive kebab-case filename, e.g. `TEST-000003-Ab3xR9pQ-password-reset-token-expiry.md` — prefer specific problem/context over generic labels like `test.md` or `check.md` |
 | **Status** | exactly one of `Draft` / `Active` / `Passing` / `Failing` / `Disabled` (the test ETD's `allowed_values`; starts `Draft`; `Passing` is its closed state) |
 | **Opened** | YYYY-MM-DD |
-| **Targets** | one or more rule IDs this test verifies — **required, never empty** (see `rules-of-development.md` §1) |
+| **Targets** | one or more rule IDs this test verifies — **required, never empty** (see `CODE-OF-CONDUCT.md` §1) |
 | **Domain** | the `DOMAIN` code(s) of the targeted rule(s), from `rules/domains/` — **required, never free text** |
 | **Requirements** | `REQ-NNNNNN` list this test verifies — optional, zero or more |
 | **Steps** | `STEP-NNNNNN` list this test verifies — optional, zero or more |
