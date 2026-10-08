@@ -7,7 +7,7 @@ This module defines entity schemas, template artifacts, and slash-command specif
 ## Contents
 
 - **`module.yaml`**: Module specification and metadata.
-- **`version.txt`**: Module version indicator (`2.4.0`, the same as `module.yaml`'s `version`).
+- **`version.txt`**: Module version indicator (`2.5.0`, the same as `module.yaml`'s `version`).
 - **`schemas/`**: Entity schemas for software engineering artifacts (`BUG`, `REQ`, `HK`, `TEST`, `STEP`, `FEAT`, `RM`).
 - **`templates/`**: Document templates for creating new software engineering artifacts.
 - **`commands/`**: Slash-command specifications for agent interactions (`create-req` and its alias `create-requirement`, `create-bug`, `create-test`, `create-feature`, `create-step`, `show-backlog`, `roadmap-add`, `roadmap-remove`, `roadmap-update`, `roadmap-merge`).

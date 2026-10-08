@@ -21,6 +21,7 @@ fields:
     kind: ref
     required: true
     target_type: REQ|BUG
+    backref: Steps
   - name: Tests
     kind: ref-list
     required: false

@@ -273,48 +273,33 @@ runs it.
   active `development/roadmaps/<name>.md`'s Status/Linked columns from
   the `FEAT-`/`REQ-` each row is linked to.
 
-When the user enters `/create-bug: ...`, create a new bug artifact immediately
-with the ID from `catalyst id next BUG --as <signer>`, register it in
-`development/bugs/bugs.md` (`catalyst index regen`), and track it in the same
-workflow as any other bug. It starts `Status: Open` and carries exactly one
-`Severity` of `Critical`/`High`/`Medium`/`Low`. If the domain cannot be inferred from context, prompt for the
-domain and rule before creating the artifact. Journal it with
-`catalyst journal append --command /create-bug --action create --tier fix`,
-its `Targets` as `--target`s.
+When the user enters `/create-bug: ...`, run `catalyst new BUG --title "<t>"
+--field Targets=<rule IDs> --field Domain=<CODE> --field Severity=<Critical|High|Medium|Low>
+--command /create-bug --tier fix --as <signer>` (it allocates the ID, fills
+and signs the template, starts it `Open`, indexes and journals it), then
+write its sections. If the domain cannot be inferred from context, prompt for
+the domain and rule first.
 
-When the user enters `/create-req:` or `/create-requirement: ...`, create a
-new requirement artifact immediately with the ID from
-`catalyst id next REQ --as <signer>`, register it in
-`requirements/requirements.md` (`catalyst index regen`), and track it in the
-same workflow. It starts `Status: Draft`. If the domain or target rule
-cannot be inferred, prompt for both before creating the artifact. Journal it
-with `catalyst journal append --action create --tier feature`, its `Targets`
-as `--target`s.
+When the user enters `/create-req:` or `/create-requirement: ...`, run
+`catalyst new REQ --title "<t>" --field Targets=<rule IDs> --field Domain=<CODE>
+[--field Feature=<FEAT-id>] --command /create-req --tier feature --as <signer>`
+(it starts `Draft` and cites the requirement back in the feature's
+`Requirement(s)`), then write its sections. If the domain or target rule
+cannot be inferred, prompt for both first.
 
-When the user enters `/create-test: ...`, create a new test artifact
-immediately using `templates/test.template.md` and the ID from
-`catalyst id next TEST --as <signer>`, register it in
-`tests/tests.md` (`catalyst index regen`), and track it in the same workflow as any other development
-artifact. If the domain or target rule cannot be inferred, prompt for both
-before creating the artifact — a test is not exempt from `CODE-OF-CONDUCT.md`
-§1 ("no development without a targeted rule"). If the user names one or more
-`REQ-NNNNNN`/`STEP-NNNNNN` this test verifies, populate the
-`Requirements`/`Steps` fields accordingly, and append the new test's own ID to
-each named requirement's/step's own `Tests` field (creating that field if this
-is its first test); if `<REQ-id>`/`<STEP-id>` doesn't resolve to an existing
-artifact, refuse with a clear message rather than citing a dangling id. Both
-fields are optional — a test naming neither is valid as long as
-`Targets`/`Domain` are still set. It starts `Status: Draft`. Journal it with
-`catalyst journal append --action create --tier feature`, covering the test file, every
-requirement/step file whose `Tests` field changed, and the regenerated
-indexes.
+When the user enters `/create-test: ...`, run `catalyst new TEST --title "<t>"
+--field Targets=<rule IDs> --field Domain=<CODE> [--field Requirements=<REQ-ids>]
+[--field Steps=<STEP-ids>] --command /create-test --tier feature --as <signer>`
+(it refuses an ID that doesn't exist and cites the test back in each named
+requirement's/step's `Tests`), then write its sections. A test is not exempt
+from `CODE-OF-CONDUCT.md` §1: if the domain or target rule cannot be
+inferred, prompt for both first.
 
-When the user enters `/create-feature: ...`, create a new feature entry
-immediately using `templates/feature.template.md` and the ID from
-`catalyst id next FEAT --as <signer>`, register it in
-`features/features.md` (`catalyst index regen`), and track it as idea/roadmap content, not
-rule-linked development work. Do not prompt for a domain or rule target —
-neither field exists on this artifact type. If this feature formalizes an
+When the user enters `/create-feature: ...`, run `catalyst new FEAT --title "<t>"
+[--field Roadmap=<RM-id>] --command /create-feature --as <signer>`, then write
+its sections. It is idea/roadmap content, not rule-linked development work:
+do not prompt for a domain or rule target — neither field exists on this
+artifact type. If this feature formalizes an
 existing roadmap row (in any `development/roadmaps/<name>.md`), cite that
 row's `RM-NNNNNN` ID in the new feature's `Roadmap` field and set the row's
 `Status` to `Triaged` and `Linked` to the new `FEAT-NNNNNN` (the row's first
@@ -325,25 +310,16 @@ domain/target rule as usual), link it back to the `FEAT-NNNNNN` entry's
 the roadmap row's `Linked` list — a feature may reasonably decompose into
 more than one requirement, each added to `Linked` as it's opened, per
 `Rules-of-Rules.md` `rr-META-021`. Roadmap rows are edited in place by
-hand. Journal the change with `catalyst journal append --action create`
-(no `--target`: features are not rule-linked), covering the feature file,
-the index and any roadmap file touched.
+hand, and journaled with `catalyst journal append --action update` (no
+`--target`: features are not rule-linked).
 
-When the user enters `/create-step <REQ-id|BUG-id>: ...`, refuse with a
-clear message if `<REQ-id|BUG-id>` doesn't resolve to an existing file
-under `requirements/` or `development/bugs/`. Otherwise create a new
-step immediately using `templates/step.template.md` and the ID from
-`catalyst id next STEP --as <signer>`, register it in
-`steps/steps.md` (`catalyst index regen`), set its `Parent` field to `<REQ-id|BUG-id>`, and
-append its own `STEP-NNNNNN` ID to that parent's `Steps` field (creating
-the field if this is its first step). Do not prompt for a domain or rule
-target — neither field exists on this artifact type; it inherits
-`<REQ-id|BUG-id>`'s own `Targets`/`Domain`. New steps start `Status:
-planned` unless the user says
-work is already underway, in which case `in-progress`. Journal it with
-`catalyst journal append --action create --tier feature` (`--tier fix` when
-the parent is a `BUG-`), covering the step file, the
-parent file and the regenerated index.
+When the user enters `/create-step <REQ-id|BUG-id>: ...`, run `catalyst new
+STEP --title "<t>" --field Parent=<REQ-id|BUG-id> [--field Status=in-progress]
+--command /create-step --tier feature --as <signer>` (`--tier fix` when the
+parent is a `BUG-`). It refuses a parent that doesn't exist and cites the
+step back in the parent's `Steps`. Do not prompt for a domain or rule
+target — the step inherits its parent's `Targets`/`Domain`. A step starts
+`planned` unless the user says work is already underway (`in-progress`).
 
 When the user enters `/roadmap-add <name> <file>: ...`, refuse with a clear
 message if `development/roadmaps/<name>.md` already exists (point to
@@ -397,11 +373,13 @@ change the `Source` field — only `Last updated`. Journal it with
 what was added/updated.
 
 When the user enters `/show-backlog`, run `catalyst index regen`, then
-inspect the current artifact indexes (open bugs — Status `Open`/`Under Review`/`Fixed` — by severity, open
-requirements — Status `Draft`/`Proposed`/`Vetted`/`Active` —, work items with no
-linked `REQ-`/`BUG-` doc, rules with no open work targeting them, feature
-ideas with no requirement yet, and every `development/roadmaps/<name>.md`
-not marked `Retired`, rows grouped by roadmap name then Status),
+`catalyst backlog --json` — open work per type and status (open bugs are
+`Open`/`Under Review`/`Fixed`, open requirements `Draft`/`Proposed`/`Vetted`/`Active`),
+open items missing a required link, rules no open work targets — and
+`catalyst list BUG --json` (open bugs grouped by `Severity`) and
+`catalyst list FEAT --json` (features whose `Requirement(s)` is empty); add
+every `development/roadmaps/<name>.md` not marked `Retired`, rows grouped by
+roadmap name then Status;
 **overwrite `development/BACKLOG.md` in full** with the result (from
 `templates/backlog.template.md`'s structure, with a refreshed timestamp),
 **also refresh every active `development/roadmaps/<name>.md`** in place —
