@@ -93,7 +93,6 @@ this module active, the typical commands per role are:
 | QA / Tester | `/create-bug`, `/create-test`, verify a rule's test coverage |
 | Stakeholder | propose `FEAT-` ideas, propose roadmap items |
 
-
 ## License
 
 Apache License 2.0 — see `LICENSE`. Contribution and security policies are
