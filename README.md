@@ -10,7 +10,7 @@ This module defines entity schemas, template artifacts, and slash-command specif
 - **`version.txt`**: Module version indicator (`2.5.0`, the same as `module.yaml`'s `version`).
 - **`schemas/`**: Entity schemas for software engineering artifacts (`BUG`, `REQ`, `HK`, `TEST`, `STEP`, `FEAT`, `RM`).
 - **`templates/`**: Document templates for creating new software engineering artifacts.
-- **`commands/`**: Slash-command specifications for agent interactions (`create-req` and its alias `create-requirement`, `create-bug`, `create-test`, `create-feature`, `create-step`, `show-backlog`, `roadmap-add`, `roadmap-remove`, `roadmap-update`, `roadmap-merge`).
+- **`code-of-conduct.module.md`**: The module's document types and slash commands (`create-req` and its alias `create-requirement`, `create-bug`, `create-test`, `create-feature`, `create-step`, `show-backlog`, `roadmap-add`, `roadmap-remove`, `roadmap-update`, `roadmap-merge`), composed into the deployed `CODE-OF-CONDUCT.md` §4; agents get them as prompts of the `catalyst mcp` server, and no command file is written into a project.
 - **`definitions/`**: Frozen, versioned prose definitions of the module's entity types (`MODULE-SPECIFICATION.md` §6.3).
 - **`migrations/`**: One-time migrations for the module's entity shapes, indexed in `migrations/migrations.md`.
 - **`INVARIANTS.module.md`**: The module's invariants (INV-5/16/26 module parts, INV-9, INV-14, INV-15, INV-27, INV-28), read together with the kernel's `INVARIANTS.md`.
