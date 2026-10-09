@@ -1,9 +1,9 @@
 id: software-engineering
 name: Software Engineering Process Module
-version: 2.5.0
+version: 2.6.0
 description: Standard software engineering process module governing requirements, bugs, house-keeping, tests, steps, features, and roadmaps.
 grounding_type: rule
-kernel_version: ">=0.47.0"
+kernel_version: ">=0.49.0"
 
 entity_types:
   - id: BUG
@@ -25,45 +25,34 @@ commands:
   - name: create-req
     description: Create a new rule-linked requirement artifact
     argument_hint: "[<rule-id>]"
-    spec_path: commands/create-req.md
   - name: create-requirement
     description: Alias of create-req
     argument_hint: "[<rule-id>]"
-    spec_path: commands/create-requirement.md
   - name: create-bug
     description: Create a new rule-linked bug artifact
     argument_hint: "[<rule-id>]"
-    spec_path: commands/create-bug.md
   - name: create-test
     description: Create a new rule-linked test artifact
     argument_hint: "[<rule-id>]"
-    spec_path: commands/create-test.md
   - name: create-feature
     description: Create a new feature artifact
-    spec_path: commands/create-feature.md
   - name: create-step
     description: Create a new step artifact under a requirement or bug
     argument_hint: "<parent-id>"
-    spec_path: commands/create-step.md
   - name: show-backlog
     description: Display work item and artifact backlog
-    spec_path: commands/show-backlog.md
   - name: roadmap-add
     description: Ingest a new named roadmap from a local file
     argument_hint: "<name> <file>"
-    spec_path: commands/roadmap-add.md
   - name: roadmap-remove
     description: Delete a named roadmap, or retire it in place if linked
     argument_hint: "<name>"
-    spec_path: commands/roadmap-remove.md
   - name: roadmap-update
     description: Re-ingest a file as the new full version of a named roadmap
     argument_hint: "<name> <file>"
-    spec_path: commands/roadmap-update.md
   - name: roadmap-merge
     description: Fold a partial delta file into an existing named roadmap
     argument_hint: "<name> <update file>"
-    spec_path: commands/roadmap-merge.md
 
 templates:
   - entity_type: BUG

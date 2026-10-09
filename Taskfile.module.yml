@@ -1,14 +1,14 @@
 # software-engineering module tasks — deployed asset, not hand-edited.
 #
-# Appended to the `tasks:` block of the deployment's
-# `.criterion/Taskfile.common.yml` on instantiation and on
-# `/sync-framework` (`MODULE-SPECIFICATION.md` §6.5). One task per command
-# in this module's `code-of-conduct.module.md` §4, in the same thin-dispatch
-# shape as the kernel's own tasks: `{{.AGENT_CMD}}` is passed in from the
-# project's root `Taskfile.yml`, never declared here.
+# Appended to the `tasks:` block of the criterion's `Taskfile.common.yml` on
+# instantiation and on `/sync-framework` (`MODULE-SPECIFICATION.md` §6.5).
+# One task per command in this module's `code-of-conduct.module.md` §4, in
+# the same thin-dispatch shape as the kernel's own tasks: `{{.AGENT_CMD}}` is
+# the kernel template's, never declared here, and each task runs from the
+# caller's directory (the composer adds its `dir:`).
 #
-# Usage: task <command-name> -- <arguments>
-#   e.g. task create-bug -- "flaky test in checkout flow"
+# Usage: catalyst task <command-name> -- <arguments>
+#   e.g. catalyst task create-bug -- "flaky test in checkout flow"
 
 version: "3"
 
