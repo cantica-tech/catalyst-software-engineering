@@ -14,212 +14,22 @@
 
 ## 3. Standard document types
 
-This module contributes seven entity types. Four of them — bugs,
-requirements, house-keeping items, and tests — are **development
-artifacts**, fully bound by `CODE-OF-CONDUCT.md` §1 (`Targets`, `Domain`,
-closed against a rule). Feature entries, roadmap items, and steps are
-related but exempt schemes, described after the table.
-
-| Type | Folder | Template | ID prefix |
+| Type | Folder | ID prefix | Targets rules |
 |---|---|---|---|
-| Bug | `development/bugs/` | `templates/bug.template.md` | `BUG-NNNNNN` |
-| Requirement | `requirements/` | `templates/requirement.template.md` | `REQ-NNNNNN` |
-| House-keeping | `development/house-keeping/` | `templates/house-keeping.template.md` | `HK-NNNNNN` |
-| Test | `tests/` | `templates/test.template.md` | `TEST-NNNNNN` |
+| Bug | `development/bugs/` | `BUG-` | yes |
+| Requirement | `requirements/` | `REQ-` | yes |
+| House-keeping | `development/house-keeping/` | `HK-` | yes, or explicitly none |
+| Test | `tests/` | `TEST-` | yes |
+| Feature | `features/` | `FEAT-` | no |
+| Roadmap item | `development/roadmaps/<name>.md` (rows) | `RM-` | no |
+| Step | `steps/` | `STEP-` | no (its parent's) |
 
-House-keeping is this module's one category where "no rule applies" is a
-legitimate answer to `CODE-OF-CONDUCT.md` §1 (pure repo hygiene with no
-bearing on any documented behavior or process) — but it must be stated
-explicitly, not left blank. It stays available for housekeeping worth
-tracking, but a chore (below) no longer needs one.
-
-#### Ceremony tiers
-
-Every change is one of three tiers (`CODE-OF-CONDUCT.md` §9,
-`INVARIANTS.module.md` INV-27), and carries only that tier's ceremony:
-
-| Tier | When | What it needs | Journal |
-|---|---|---|---|
-| **chore** | No rule's behaviour changes: a typo, formatting, a comment, a dependency bump without behaviour change, a documentation fix. | No artifact. | One entry: `catalyst journal append --command chore --action update --tier chore --artifact "<short description>" --intent "<goal>" --file ...`, with no `--target` (`targets: []` — explicitly no rule, INV-5). |
-| **fix** | Restores the behaviour a documented rule already describes. | A `BUG-` targeting that rule; steps optional. | `--tier fix` on its entries. |
-| **feature** | New or changed behaviour. | A `REQ-`, vetted against every rule document and targeting or proposing rules (`rr-META-001`); `STEP-`s opened as the work happens, at least one before it closes; tests as §3's test entries and the rules' test plans require. | `--tier feature` on its entries. |
-
-The agent picks the tier, **states it to the user before starting**, and
-escalates (chore → fix → feature) as soon as the change turns out bigger —
-opening the artifact the new tier needs at that point, never
-retroactively (`INVARIANTS.md` INV-29). When unsure, the higher tier.
-A feature-tier change is a `REQ-`, not a feature entry: a `FEAT-` (below)
-records an idea before any work starts, and becomes a `REQ-` when it does.
-
-Feature entries (`FEAT-NNNNNN`, folder `features/`, template
-`templates/feature.template.md` → `TEMPLATE-FEATURE-vN.md`) are a related but
-**separate, non-rule-linked** scheme — see `Rules-of-Rules.md` `rr-META-009`.
-They document possible future work, are not one of the four
-development-artifact types above, and are exempt from `CODE-OF-CONDUCT.md`'s
-rules (no `Targets`, no `Domain`, never "done" against a rule). When a new
-feature actually needs to be developed, open a `REQ-NNNNNN` requirement —
-never a `BUG-NNNNNN` — to track it.
-
-Roadmap items (`RM-NNNNNN`, table rows inside `development/roadmaps/<name>.md`
-files — one file per named roadmap, template `templates/roadmap.template.md`,
-index `development/roadmaps/roadmaps.md`) sit one level above feature entries
-— see `Rules-of-Rules.md` `rr-META-010`. They are populated by
-`/roadmap-add`/`/roadmap-update`/`/roadmap-merge` from an external source file
-rather than created one at a time, and are exempt from `CODE-OF-CONDUCT.md`'s
-rules the same way feature entries are (no `Targets`, no `Domain`, never
-"done" against a rule). Formalizing a roadmap item means opening a
-`FEAT-NNNNNN` for it via `/create-feature`, citing the `RM-NNNNNN` ID in the
-feature's `Roadmap` field. A roadmap item of real size is expected to
-decompose into **more than one** requirement rather than one oversized
-`REQ-NNNNNN` standing in for the whole item — its row's `Linked` field names
-every `FEAT-`/`REQ-NNNNNN` currently associated with it, not just one.
-
-Steps (`STEP-NNNNNN`, folder `steps/`, template `templates/step.template.md`)
-sit one level *below* a requirement or a bug — see `Rules-of-Rules.md`
-`rr-META-021`. Each names exactly one parent — a `REQ-NNNNNN` or a `BUG-NNNNNN`
-(the `Parent` field) — and records one concrete unit of implementation
-work performed toward it (files touched, commands run, how it was
-verified). Like feature entries and roadmap items, a step is exempt from
-`CODE-OF-CONDUCT.md`'s rules (no `Targets`, no `Domain` of its own — it
-inherits its parent's), but unlike them it's created *during* active
-implementation, not before it: a requirement (a feature, in tier terms)
-has steps opened as its work happens and cannot close without at least
-one; a bug's steps are optional. Neither moves to one of its ETD's
-closed states (requirement: `Completed`/`Abandoned`; bug:
-`Closed`/`WontFix`) while any of its steps is still `planned` or
-`in-progress` — each must be `done` or `abandoned` first. Opened and
-closed as the work itself happens, not batched afterward, per
-`INVARIANTS.md` INV-29.
-
-Tests (`TEST-NNNNNN`, folder `tests/`, template `templates/test.template.md`)
-join this module's development-artifact types as of framework `0.30.0` — see
-`Rules-of-Rules.md` `rr-META-022`. Unlike features, roadmap items, and steps,
-a test is **not** exempt from `CODE-OF-CONDUCT.md`'s rules: it always carries
-its own `Targets`/`Domain`, vetted the same way a bug or requirement is. On
-top of that, a test may independently name `(0,n)` `REQ-NNNNNN` and `(0,n)`
-`STEP-NNNNNN` it verifies — both optional, and neither implies the other.
-Named requirements/steps get the new test's ID appended to their own `Tests`
-field in the same action — the mirror image of a requirement's `Steps` field.
-
-#### Hard rule: individual files and indexes
-
-- Bugs, requirements, house-keeping items, and tests each follow
-  `CODE-OF-CONDUCT.md` §3's individual-file and index hard rules. Their
-  index files are:
-  - `development/bugs/bugs.md` for the bug index.
-  - `requirements/requirements.md` for the requirements index.
-  - `development/house-keeping/house-keeping.md` for the house-keeping index.
-  - `tests/tests.md` for the test index.
-  - Feature entries and steps are indexed the same way, in
-    `features/features.md` and `steps/steps.md`.
-  - Every one of these indexes is regenerated from the artifact files by
-    `catalyst index regen` (`CODE-OF-CONDUCT.md` §3), never hand-edited.
-    Roadmaps are the exception: their items are rows of hand-edited
-    tables (`naming: free-form`), and `development/roadmaps/roadmaps.md`
-    is kept by the `/roadmap-*` commands.
-- **This is a hard requirement.** `development/BACKLOG.md` always
-  exists — seeded from `templates/backlog.template.md` on first deploy —
-  as the go-to document for developers to review work to be done and
-  current status. It is not hand-maintained: `/show-backlog` regenerates
-  it in full every time it runs, so it never drifts from the real
-  indexes — including every `development/roadmaps/<name>.md`. See
-  `INVARIANTS.module.md` INV-14.
-- **This is also a hard requirement.** `development/roadmaps/` and its
-  `roadmaps.md` index always exist (empty is fine — individual named
-  roadmaps are created only via `/roadmap-add`). Within any
-  `development/roadmaps/<name>.md` that does exist, only the
-  `/roadmap-add`/`-update`/`-merge`/`-remove` commands and `/show-backlog`
-  (Status/Linked refresh) ever change it; hand-editing anything but a
-  row's Notes column is pointless, the same way hand-editing `BACKLOG.md`
-  is. See `INVARIANTS.module.md` INV-15.
-
-- **Bug**: an existing ✅ rule doesn't actually hold in the running system,
-  or formalizes an already-known ⚠️/❌ rule into trackable, closeable work.
-  Never introduces a new rule by itself.
-- **Requirement**: an explicit, tracked requirement that captures
-  user/business behavior that must be implemented and tested — this is the
-  artifact to open when a new feature needs to be developed, never a bug. It
-  must be vetted against every existing rule document (`Rules-of-Rules.md`
-  `rr-META-001` conflict check) before it's opened, it always carries a
-  `Domain`, and it always answers — targets and/or proposes — one or more
-  rules (and, if needed, a new domain — see `Rules-of-Rules.md`
-  `rr-META-006`/`rr-META-007`) inline in the requirement doc so rule and
-  requirement are reviewed together. None of those three are optional.
-- **House-keeping**: dev-support tooling/process, not product behavior.
-  Still targets a rule where one exists — most commonly a `rr-META-*`
-  process rule.
-- **Test**: verifies that a targeted rule actually holds, the same
-  `Targets`/`Domain` requirement as a bug or requirement. Optionally
-  names `(0,n)` requirements and/or `(0,n)` steps it verifies, on top of
-  its own rule target — see `Rules-of-Rules.md` `rr-META-022`.
-
-#### Rule documents' Linked Artifacts quick index
-
-Every rule document carries a `## Linked Artifacts — Quick Index` heading
-(kernel `INSTANTIATION-GUIDE.md` §1). This module lists there each open
-`BUG-NNNNNN` whose `Targets` include one of the document's rules, as
-`BUG-NNNNNN — <Name> (<Status>)`, and removes the line once the bug is
-closed. Other artifact types are not listed.
-
-#### Domain field
-
-Feature entries under `features/` (and roadmap items and steps) are not
-development artifacts under `CODE-OF-CONDUCT.md` and carry no `Domain`
-field of their own — see `Rules-of-Rules.md` `rr-META-009`.
-
-#### Development-artifact IDs
-
-Per `Rules-of-Rules.md` `rr-META-006`: `(BUG|REQ|HK|TEST)-(NNNNNN)-(userid)`,
-global per type, sequential, zero-padded 6 digits, never reused, plus the
-signer's `userid` suffix (`rr-META-020`, INV-26), under
-`CODE-OF-CONDUCT.md` §6's naming rule. Every ID of this module's types —
-`STEP-`, `FEAT-` and `RM-` included — comes from
-`catalyst id next <PREFIX> --as <signer>`, never from reading an index by
-hand. Example:
-`BUG-000001-Ab3xR9pQ-login-form-validation` or
-`BUG-000001-Ab3xR9pQ-login-form-validation.md`, and
-`REQ-000002-Ab3xR9pQ-password-reset-flow` or
-`REQ-000002-Ab3xR9pQ-password-reset-flow.md`.
-
-#### Closing an item
-
-Before closing a bug or requirement, ensure the corresponding entry exists in
-its individual file and is reflected in the relevant index file
-(`CODE-OF-CONDUCT.md` §7).
-
-Each type's Status takes exactly its entity type definition's
-`allowed_values`, and "closed" means one of its `closed_states`. Only the
-requirement's `Steps` check below is enforced by `catalyst validate`; the
-rest are this module's rules, applied by the agent and the reviewer.
-
-- **Bug** (`Open` → `Under Review` → `Fixed` → `Closed`, or `WontFix`;
-  closed states `Closed`/`WontFix`): fix-tier work, steps optional. Does not
-  move to `Closed`/`WontFix` while any `STEP-NNNNNN` in its `Steps` field is
-  not `done` or `abandoned` (`Rules-of-Rules.md` `rr-META-021`). Its Test
-  plan should name the test covering the fix before it moves to `Closed` —
-  guidance, not a tool-enforced condition.
-- **Requirement** (`Draft` → `Proposed` → `Vetted` → `Active` →
-  `Completed`, or `Abandoned`; closed states `Completed`/`Abandoned`):
-  feature-tier work. Its `Steps` field must name at least one step before
-  it closes (`required_when_closed` in its ETD — `catalyst validate`
-  reports a closed requirement without one as `closed-incomplete`), and
-  every `STEP-NNNNNN` in it is `done` or `abandoned` (`Rules-of-Rules.md`
-  `rr-META-021`). It moves to `Completed` once its acceptance criteria and
-  rule targets are reflected in the implementation; tests follow the test
-  entries of §3 and its own Test plan — guidance, not a tool-enforced
-  condition.
-- **Step** (`planned` → `in-progress` → `done`, or `abandoned`): not
-  `done` without its own Verification section filled in; `abandoned`
-  requires a reason there instead.
-- **House-keeping** (`Open` → `Completed`): `Completed` once its stated
-  verification passes.
-- **Test** (`Draft` → `Active` → `Passing`/`Failing`, or `Disabled`;
-  closed state `Passing`): not `Passing` without its own Actual outcome
-  section reflecting a real run; `Failing`/`Disabled` require the same
-  section explaining why.
-
-Closing a bug as `WontFix` or a requirement as `Abandoned` never retires
-the rule(s) it targeted, and vice versa (`CODE-OF-CONDUCT.md` §8).
+What each tier needs, how the types relate and what closing them requires:
+`Rules-of-Rules.md`, the module's part (SE-L1, `rr-META-009`, `-010`,
+`-021`, `-022`). Their fields and statuses: `definitions/` and the module's
+entity type definitions. The backlog (`development/BACKLOG.md`) and the
+roadmaps' `Status`/`Linked` columns are regenerated by `/show-backlog`, never
+hand-edited.
 
 ## 4. Slash-command entry points
 
