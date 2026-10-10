@@ -1,14 +1,40 @@
-# Software Engineering Module Invariants
+# Software Engineering Module Laws and Invariants
 
-The invariants the `software-engineering` process module adds to catalyst.
-Read together with the kernel's `INVARIANTS.md` — this file extends it and
-never overrides it (`MODULE-SPECIFICATION.md` §6.4). Invariants that moved
-here from the kernel keep their original `INV-N` number; the kernel keeps a
-one-line placeholder for each and never reuses the number. Entries marked
-*(module part)* extend a kernel invariant that still exists there.
+The law the `software-engineering` process module adds to catalyst's ten
+(the kernel's `INVARIANTS.md`), then the invariants it comes from. A session
+loads only the law; `catalyst why SE-L1` or `catalyst why INV-n` explains the
+rest. This file extends the kernel's and never overrides it
+(`MODULE-SPECIFICATION.md` §6.4).
 
-Keep this file as lean as the kernel's: rationale and examples belong in the
-module's definitions and in the deployed `Rules-of-Rules.md`.
+## The law
+
+- **SE-L1 — The tier decides the artifact.** A feature is a requirement
+  (`REQ-`) whose steps (`STEP-`) are opened as the work happens, at least one
+  before it closes; a fix is a bug (`BUG-`) against the rule it restores; a
+  chore changes no rule's behaviour and has no artifact. A feature from the
+  roadmap (`FEAT-`) becomes a requirement when work on it starts, never a
+  bug.
+
+<!-- catalyst: end of the session brief -->
+
+## The invariants
+
+Invariants that moved here from the kernel keep their `INV-n` number; the
+kernel keeps a one-line placeholder for each and never reuses it. Entries
+marked *(module part)* extend a kernel invariant.
+
+| Invariant | Law | Enforced by |
+|---|---|---|
+| INV-5 chain (module part) | L2, SE-L1 | `validate` |
+| INV-9 requirements, not bugs, for new work | SE-L1 | `validate` |
+| INV-14 persisted backlog | L6 | `/show-backlog` regenerates it, `check` |
+| INV-15 machine-maintained roadmaps | L6 | the `/roadmap-*` commands, `check` |
+| INV-16 advisory role signing (module part) | L7, L4 | `check` |
+| INV-26 signed entity IDs (module part) | L7 | `id next`, `check` |
+| INV-27 ceremony follows the tier | L2, SE-L1 | journal `tier`, `required_when_closed`, `check` |
+| INV-28 tests with optional links | L6 | `/create-test` back-references, `check` |
+
+## The invariants in full
 
 ## Structural
 
