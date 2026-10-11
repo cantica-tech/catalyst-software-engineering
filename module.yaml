@@ -1,9 +1,9 @@
 id: software-engineering
 name: Software Engineering Process Module
-version: 2.8.0
+version: 2.9.0
 description: Standard software engineering process module governing requirements, bugs, house-keeping, tests, steps, features, and roadmaps.
 grounding_type: rule
-kernel_version: ">=0.55.0"
+kernel_version: ">=0.56.0"
 
 # Ceremony tiers (rr-META-006, kernel >=0.55.0 reads them; an older kernel
 # applies the same three by default). SE-L1: the tier decides the artifact.
