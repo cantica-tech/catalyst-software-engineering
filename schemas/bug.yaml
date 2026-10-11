@@ -51,3 +51,8 @@ workflow:
   closed_states:
     - Closed
     - WontFix
+  guards:
+    Fixed:
+      - children_closed: Steps
+    Closed:
+      - children_closed: Steps
