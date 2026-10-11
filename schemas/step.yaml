@@ -37,3 +37,6 @@ workflow:
   closed_states:
     - done
     - abandoned
+  guards:
+    done:
+      - section_written: Verification
