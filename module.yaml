@@ -5,6 +5,17 @@ description: Standard software engineering process module governing requirements
 grounding_type: rule
 kernel_version: ">=0.52.0"
 
+# Ceremony tiers (rr-META-006, kernel >=0.55.0 reads them; an older kernel
+# applies the same three by default). SE-L1: the tier decides the artifact.
+tiers:
+  - id: chore
+    artifact: none
+    commit: "chore:"
+  - id: fix
+    artifact: BUG
+  - id: feature
+    artifact: REQ
+
 entity_types:
   - id: BUG
     schema: schemas/bug.yaml
