@@ -2,7 +2,7 @@
 
 The law the `software-engineering` process module adds to catalyst's ten
 (the kernel's `INVARIANTS.md`), then the invariants it comes from. A session
-loads only the law; `catalyst why SE-L1` or `catalyst why INV-n` explains the
+loads only the law; `catalyst why SE-L1` or `catalyst why INV-SE-n` explains the
 rest. This file extends the kernel's and never overrides it
 (`MODULE-SPECIFICATION.md` §6.4).
 
@@ -19,20 +19,23 @@ rest. This file extends the kernel's and never overrides it
 
 ## The invariants
 
-Invariants that moved here from the kernel keep their `INV-n` number; the
-kernel keeps a one-line placeholder for each and never reuses it. Entries
-marked *(module part)* extend a kernel invariant.
+The module's own invariants are numbered in its namespace, `INV-SE-n`.
+Five came from the kernel, which keeps a one-line placeholder for each old
+number and never reuses it: INV-9, INV-14, INV-15, INV-27 and INV-28, now
+INV-SE-1 to INV-SE-5; `module.yaml` lists them under `aliases:`, so
+`catalyst why INV-27` still answers. Entries marked *(module part)* extend
+a kernel invariant and keep its number.
 
 | Invariant | Law | Enforced by |
 |---|---|---|
 | INV-5 chain (module part) | L2, SE-L1 | `validate` |
-| INV-9 requirements, not bugs, for new work | SE-L1 | `validate` |
-| INV-14 persisted backlog | L6 | `/show-backlog` regenerates it, `check` |
-| INV-15 machine-maintained roadmaps | L6 | the `/roadmap-*` commands, `check` |
+| INV-SE-1 requirements, not bugs, for new work | SE-L1 | `validate` |
+| INV-SE-2 persisted backlog | L6 | `/show-backlog` regenerates it, `check` |
+| INV-SE-3 machine-maintained roadmaps | L6 | the `/roadmap-*` commands, `check` |
 | INV-16 advisory role signing (module part) | L7, L4 | `check` |
 | INV-26 signed entity IDs (module part) | L7 | `id next`, `check` |
-| INV-27 ceremony follows the tier | L2, SE-L1 | journal `tier`, `required_when_closed`, `check` |
-| INV-28 tests with optional links | L6 | `/create-test` back-references, `check` |
+| INV-SE-4 ceremony follows the tier | L2, SE-L1 | journal `tier`, `required_when_closed`, `check` |
+| INV-SE-5 tests with optional links | L6 | `/create-test` back-references, `check` |
 
 ## The invariants in full
 
@@ -40,20 +43,20 @@ marked *(module part)* extend a kernel invariant.
 
 - **INV-5 — Chain invariant *(module part)*.** This module's grounding type
   is `rule`: `REQ`/`BUG`/`HK`/`TEST` → rule → domain. `STEP-`, `FEAT-`, and
-  `RM-` are exempt from asserting a rule target of their own (INV-9,
-  INV-27). With an agile project-management plugin active (kernel INV-22),
+  `RM-` are exempt from asserting a rule target of their own (INV-SE-1,
+  INV-SE-4). With an agile project-management plugin active (kernel INV-22),
   the chain reads `epic → story → task → REQ`/`BUG`/`HK` → rule → domain;
   without one, `REQ`/`BUG`/`HK` chains directly to rule → domain, the same
   way house-keeping's "no rule applies" is already a legitimate, explicit
-  answer. A chore (INV-27) carries no artifact and, explicitly, no rule.
-- **INV-9 — Requirements, not bugs, for new work.** `FEAT-` entries are
+  answer. A chore (INV-SE-4) carries no artifact and, explicitly, no rule.
+- **INV-SE-1 — Requirements, not bugs, for new work.** `FEAT-` entries are
   non-rule-linked roadmap. When work on one starts it becomes a `REQ-` (never a
   `BUG-`), which is vetted against every rule, assigned a domain, and measured.
-- **INV-14 — Persisted backlog.** `development/BACKLOG.md` always exists,
+- **INV-SE-2 — Persisted backlog.** `development/BACKLOG.md` always exists,
   seeded from `templates/backlog.template.md`. It is never hand-edited —
   `/show-backlog` overwrites it in full every run, so it can't drift from
   the real indexes.
-- **INV-15 — Machine-maintained roadmap tracking.** `development/roadmaps/`
+- **INV-SE-3 — Machine-maintained roadmap tracking.** `development/roadmaps/`
   and its `roadmaps.md` index always exist (empty is fine); individual named
   roadmaps are created only via `/roadmap-add`. In every
   `development/roadmaps/<name>.md`, the Status/Linked columns are set only
@@ -69,7 +72,7 @@ marked *(module part)* extend a kernel invariant.
   creator/signer's `userid` as a trailing `-XXXXXXXX` suffix, assigned once
   at creation and never changed thereafter, appended after the zero-padded
   sequence number (`Rules-of-Rules.md` rr-META-020).
-- **INV-27 — Ceremony follows the tier; steps record the work.** Every
+- **INV-SE-4 — Ceremony follows the tier; steps record the work.** Every
   change is a tier, stated before it starts and escalated if it grows
   (kernel `CODE-OF-CONDUCT.md` §9): a **chore** (no rule's behaviour
   changes) has no artifact — one journal entry, `--tier chore`, no
@@ -81,10 +84,10 @@ marked *(module part)* extend a kernel invariant.
   records one concrete unit of work toward it, lives in `steps/` (full
   INV-20 treatment) and inherits its parent's rule target (exempt from
   INV-5's targeting). No requirement or bug reaches a closed state
-  (`Completed`/`Abandoned`, `Closed`/`WontFix`) while one of its steps is open (`Rules-of-Rules.md` rr-META-021). A
+  (`Completed`/`Abandoned`, `Closed`/`WontFix`) while one of its steps is open (`Rules-of-Rules.md` rr-SE-003). A
   roadmap row's `Linked` field is a list.
-- **INV-28 — Tests are development artifacts with optional (0,n) links.**
-  `TEST-NNNNNN` (`templates/test.template.md`) joined the
+- **INV-SE-5 — Tests are development artifacts with optional (0,n) links.**
+  `TEST-NNNNNN` (its template generated from `module.yaml`) joined the
   `(BUG|REQ|HK|TEST)` development-artifact format at framework `0.30.0`
   — unlike `STEP-`/`FEAT-`/`RM-`, it is **not** exempt from the chain
   invariant (INV-5): a test always carries its own `Targets`/`Domain`
@@ -99,4 +102,4 @@ marked *(module part)* extend a kernel invariant.
   a requirement and a step each gain their own `Tests` field, listing
   every `TEST-NNNNNN` that names them — populated automatically by
   `/create-test` in the same action, never hand-edited
-  (`Rules-of-Rules.md` rr-META-022).
+  (`Rules-of-Rules.md` rr-SE-004).
