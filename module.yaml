@@ -3,6 +3,22 @@ name: Software Engineering Process Module
 version: 2.9.0
 description: Standard software engineering process module governing requirements, bugs, house-keeping, tests, steps, features, and roadmaps.
 grounding_type: rule
+format: 3
+
+# The module's own meta-rules and invariants (ADR-019 in catalyst): rr-SE-NNN
+# and INV-SE-n. The IDs they had while the kernel lent its numbers resolve
+# through these aliases (`catalyst why rr-META-009` explains rr-SE-001).
+namespace: SE
+aliases:
+  rr-META-009: rr-SE-001
+  rr-META-010: rr-SE-002
+  rr-META-021: rr-SE-003
+  rr-META-022: rr-SE-004
+  INV-9: INV-SE-1
+  INV-14: INV-SE-2
+  INV-15: INV-SE-3
+  INV-27: INV-SE-4
+  INV-28: INV-SE-5
 kernel_version: ">=0.56.0"
 
 # Ceremony tiers (rr-META-006, kernel >=0.55.0 reads them; an older kernel
@@ -16,21 +32,383 @@ tiers:
   - id: feature
     artifact: REQ
 
-entity_types:
-  - id: BUG
-    schema: schemas/bug.yaml
-  - id: REQ
-    schema: schemas/requirement.yaml
-  - id: HK
-    schema: schemas/house-keeping.yaml
-  - id: TEST
-    schema: schemas/test.yaml
-  - id: STEP
-    schema: schemas/step.yaml
-  - id: FEAT
-    schema: schemas/feature.yaml
-  - id: RM
-    schema: schemas/roadmap.yaml
+# The types (module format v3): catalyst generates each item template and
+# definition from these declarations; a file listed under templates: or
+# definitions: below wins over the generated one.
+entities:
+  BUG:
+    name: "Bug"
+    folder: bugs
+    location: development
+    grounding: required
+    grounding_field: Targets
+    status_hint: "exactly one of `Open` / `Under Review` / `Fixed` / `Closed` / `WontFix` (the bug ETD's `allowed_values`; starts `Open`; `Closed` and `WontFix` are its closed states). A duplicate is closed `WontFix`, naming the original `BUG-` under Related"
+    fields:
+      Severity:
+        kind: enum
+        required: true
+        values: [Critical, High, Medium, Low]
+        hint: "exactly one of `Critical` / `High` / `Medium` / `Low` — a closed list, no other value; see scale below. **Required.**"
+      Targets:
+        kind: ref-list
+        required: true
+        to: rule
+        hint: "one or more rule IDs this bug violates — **required, never empty** (see `CODE-OF-CONDUCT.md` §1)"
+      Domain:
+        kind: ref
+        required: true
+        to: domain
+        hint: "the `DOMAIN` code(s) of the targeted rule(s), from `{{RULES_DIR}}/domains/`"
+      Area:
+        kind: text
+        hint: "short free-text area label"
+      Steps:
+        kind: ref-list
+        to: STEP
+        hint: "`STEP-NNNNNN` list, in creation order, opened against this bug (`Rules-of-Rules.md` rr-SE-003) — optional for a bug (fix tier, `CODE-OF-CONDUCT.md` §3); if any are listed, the bug does not move to a closed state (`Closed`/`WontFix`) until every listed step is `done` or `abandoned` (`Rules-of-Rules.md` rr-SE-003)"
+    states: [Open, "Under Review", Fixed, Closed, WontFix]
+    initial: Open
+    closed: [Closed, WontFix]
+    guards:
+      Fixed:
+        - children_closed: Steps
+      Closed:
+        - children_closed: Steps
+    sections:
+      - Severity scale: |
+          Pick exactly one of these four values:
+
+          - **Critical** — data loss/corruption (silent or irreversible), a
+            security exposure, or a failure that permanently disables a whole
+            subsystem for the rest of the process's uptime (no self-recovery).
+          - **High** — a functional break with no workaround, or silent data
+            divergence/staleness that looks healthy but isn't.
+          - **Medium** — validation/UX gap with a workaround, or a functional
+            break confined to an edge case.
+          - **Low** — cosmetic, or test-coverage/tech-debt with no observed user
+            impact yet.
+      - Description: |
+          What's wrong, in terms of the targeted rule(s) — not just symptoms.
+      - Reproduction: |
+          Concrete steps or inputs that trigger it. Cite a failing/missing test if
+          one exists.
+      - Expected vs actual: |
+          - **Expected** (per the targeted rule): …
+          - **Actual**: …
+      - Root cause: |
+          `file:line` pointer(s) once known.
+      - Fix plan: |
+          Whether the fix changes the implementation (rule stays as-is) or the rule
+          itself (subject to `Rules-of-Rules.md` §1 conflict check first).
+      - Test plan: |
+          The specific test (existing or new) that will cover this once fixed.
+          Guidance, not a tool-enforced closing condition: name the test here
+          before moving the bug to `Closed`, per the module's test rules
+          (`CODE-OF-CONDUCT.md` §3).
+      - Related: |
+          Other `BUG-`/`REQ-`/`HK-`/`STEP-`/`TEST-` IDs, or rule IDs.
+    definition: "A `BUG-NNNNNN` document asserts that an existing, documented rule does not hold in the running application — it targets one or more rule IDs the observed behavior violates, never introduces new behavior (that's a requirement's job). It always carries a Severity (Critical/High/Medium/Low) and a non-empty Targets field, and may list the `STEP-NNNNNN` steps recording its fix. Lives under `development/bugs/`, registered in `development/bugs/bugs.md`."
+  REQ:
+    name: "Requirement"
+    folder: requirements
+    grounding: required
+    grounding_field: Targets
+    status_hint: "exactly one of `Draft` / `Proposed` / `Vetted` / `Active` / `Completed` / `Abandoned` (the requirement ETD's `allowed_values`; starts `Draft`; `Completed` and `Abandoned` are its closed states)"
+    fields:
+      Targets:
+        kind: ref-list
+        required: true
+        to: rule
+        hint: "one or more rule IDs this requirement implements or extends — **required, never empty** (see `CODE-OF-CONDUCT.md` §1). If none exist yet, define them first (see New rules proposed below)"
+      Domain:
+        kind: ref
+        required: true
+        to: domain
+        hint: "the `DOMAIN` code(s) of the targeted/new rule(s), from `{{RULES_DIR}}/domains/` — **required, never free text**"
+      Feature:
+        kind: ref
+        to: FEAT
+        backref: Requirements
+        hint: "`FEAT-NNNNNN`, if this requirement was motivated by a documented feature — omit if none"
+      Steps:
+        kind: ref-list
+        to: STEP
+        required_when_closed: true
+        hint: "`STEP-NNNNNN` list, in creation order, opened against this requirement (`Rules-of-Rules.md` rr-SE-003) — empty while implementation hasn't started. A requirement is feature-tier work (`CODE-OF-CONDUCT.md` §3): it cannot be in a closed state (`Completed`/`Abandoned`) with this field empty — `catalyst validate` reports that as `closed-incomplete` — and does not close until every listed step is `done` or `abandoned` (`Rules-of-Rules.md` rr-SE-003)"
+      Tests:
+        kind: ref-list
+        to: TEST
+        backref: Requirements
+        hint: "`TEST-NNNNNN` list of tests that verify this requirement — empty until `/create-test` names it; back-populated automatically, never hand-edited (`Rules-of-Rules.md` rr-SE-004)"
+    states: [Draft, Proposed, Vetted, Active, Completed, Abandoned]
+    initial: Draft
+    closed: [Completed, Abandoned]
+    guards:
+      Completed:
+        - nonempty: Steps
+        - children_closed: Steps
+    sections:
+      - Vetted against existing rules: |
+          Per `Rules-of-Rules.md` §1: confirm this requirement was checked against
+          every rule document in `{{RULE_DOCS_LIST}}`, not only the one that seems
+          most relevant, and record the outcome — no conflict found, or the
+          specific existing rule ID(s) this requirement narrows/amends (and the
+          decision that authorized that).
+      - New domain proposed: |
+          *(omit if this requirement fits an existing domain.)* Per
+          `Rules-of-Rules.md` §7: domain-level conflict check performed; proposed
+          code; the domain file content (`rules/domains/<prefix>-<CODE>-<short-description>.md`)
+          this will create, including Scope and Relationship to other domains.
+      - New rules proposed: |
+          *(omit if none — only valid when the `Targets` field above already cites
+          existing rule IDs instead.)* List each new rule here **before**
+          implementation starts, in the exact form it will take once added to the
+          rule document: proposed ID, rule text, starting status marker (almost
+          always ❌). Run the `Rules-of-Rules.md` §1 conflict check first.
+      - Source rules: |
+          Capture the rule documents and rule IDs that informed this requirements
+          set. Examples include a UI-rules description such as `UI-Rules.md` and a
+          business-rules description such as `business-rules.md`. Each requirement
+          should point to the specific screen, flow, component, or domain behavior it
+          governs.
+
+          - **UI rules**: list relevant rule IDs or source files
+          - **Business rules**: list relevant rule IDs or source files
+          - **Application area**: name the specific screen, feature, form, or workflow
+      - Summary: |
+          Describe the user problem, requirement scope, or change being requested.
+      - Functional requirements: |
+          List the requirements in a structured way. Each item should reference one or
+          more source rules, name the relevant application area, and include
+          acceptance criteria that can be tested directly.
+
+          ### Requirement 1 — <short title>
+
+          - **Source rule(s)**: `RULE-ID` or document name
+          - **Application area**: screen, form, component, workflow, or domain area
+          - **Description**: what must be true in that specific part of the app
+          - **Acceptance criteria**:
+            - ...
+            - ...
+      - UI requirements: |
+          Capture any requirements that affect the interface in a specific UI area.
+
+          - **Presentation Logic**: controls how a particular interface element looks
+            or appears based on user actions or screen states.
+          - **Validation Rules**: checks whether specific typed data is correct
+            before the user can continue in that flow.
+          - **Interaction/Behavior Rules**: defines dynamic screen changes for a
+            specific screen or component based on user selections or state.
+          - **Initialization Rules**: sets default values for a specific form or
+            screen state.
+      - Business rules: |
+          Capture the domain or workflow constraints that govern the feature.
+
+          - ...
+          - ...
+      - Non-functional requirements: |
+          - **Accessibility**: ...
+          - **Security**: ...
+          - **Performance**: ...
+          - **Observability**: ...
+      - Design / implementation plan: |
+          Brief — files touched, approach.
+      - Test plan: |
+          Per rule targeted or introduced, the specific test that will cover it.
+          Guidance, not a tool-enforced closing condition: a rule with no covering
+          test is not verified, whether or not the code exists — plan the tests
+          the module's test rules call for (`CODE-OF-CONDUCT.md` §3) before
+          moving this requirement to `Completed`.
+      - Open questions: |
+          - ...
+      - Related: |
+          Other `BUG-`/`REQ-`/`HK-`/`FEAT-`/`TEST-` IDs, or rule IDs.
+    definition: "A `REQ-NNNNNN` document captures a concrete, application-bound requirement derived from the project's rule documents, or opened to introduce a new feature. It is vetted against every existing rule before being opened, always carries a Domain, and always targets or proposes one or more rules — the main input for tests and acceptance criteria. Lives in the `requirements/` root folder, registered in `requirements.md`."
+  HK:
+    name: "House-keeping"
+    plural: "House-keeping Items"
+    folder: house-keeping
+    location: development
+    grounding: required
+    grounding_field: Targets
+    status_hint: "exactly one of `Open` / `Completed` (the house-keeping ETD's `allowed_values`; starts `Open`; `Completed` is its closed state)"
+    fields:
+      Priority:
+        kind: enum
+        values: [High, Medium, Low]
+        hint: "High / Medium / Low — how urgently this blocks or de-risks other work"
+      Targets:
+        kind: ref-list
+        required: true
+        to: rule
+        hint: "the rule ID(s) this work supports the enforcement/verification/documentation of. If genuinely none applies, state that explicitly rather than leaving the field blank"
+      Domain:
+        kind: ref
+        required: true
+        to: domain
+        hint: "the `DOMAIN` code of the targeted rule(s), or `META` if this supports a `rr-META-*` process rule"
+      Area:
+        kind: text
+        hint: "free-text, e.g. \"CI\", \"test harness\", \"release tooling\""
+    states: [Open, Completed]
+    initial: Open
+    closed: [Completed]
+    sections:
+      - Description: |
+          What's being built/changed and why.
+      - Plan: |
+          Brief — steps, files touched.
+      - Verification: |
+          Concrete check that it works — CI run green, script output against a
+          known-good fixture, etc.
+      - Related: |
+          Other `BUG-`/`REQ-`/`HK-`/`FEAT-` IDs, or rule IDs.
+    definition: "An `HK-NNNNNN` document tracks development of tools, scripts, or process that support the development effort itself rather than product behavior — CI, test harnesses, release tooling. It still requires a rule target, since house- keeping work exists to keep some rule enforceable, verifiable, or documented, even indirectly. Lives under `development/house-keeping/`, registered in `house-keeping.md`."
+  TEST:
+    name: "Test"
+    folder: tests
+    grounding: required
+    grounding_field: Targets
+    status_hint: "exactly one of `Draft` / `Active` / `Passing` / `Failing` / `Disabled` (the test ETD's `allowed_values`; starts `Draft`; `Passing` is its closed state)"
+    fields:
+      Targets:
+        kind: ref-list
+        required: true
+        to: rule
+        hint: "one or more rule IDs this test verifies — **required, never empty** (see `CODE-OF-CONDUCT.md` §1)"
+      Domain:
+        kind: ref
+        required: true
+        to: domain
+        hint: "the `DOMAIN` code(s) of the targeted rule(s), from `rules/domains/` — **required, never free text**"
+      Requirements:
+        kind: ref-list
+        to: REQ
+        backref: Tests
+        hint: "`REQ-NNNNNN` list this test verifies — optional, zero or more"
+      Steps:
+        kind: ref-list
+        to: STEP
+        backref: Tests
+        hint: "`STEP-NNNNNN` list this test verifies — optional, zero or more"
+    states: [Draft, Active, Passing, Failing, Disabled]
+    initial: Draft
+    closed: [Passing]
+    sections:
+      - Description: |
+          What this test verifies, and why it's worth tracking as its own
+          artifact rather than living only as an assertion inside a source file.
+      - Procedure: |
+          Concrete steps to execute this test — a command to run, a manual
+          sequence of actions, or a pointer to the automated test file/function
+          that implements it.
+
+          - ...
+          - ...
+      - Expected outcome: |
+          What must be true for this test to pass.
+      - Actual outcome: |
+          Blank until run. Filled in with the real result — `Status` should
+          already reflect this before this section does.
+      - Related: |
+          Other `TEST-`/`BUG-`/`REQ-`/`STEP-` IDs, or rule IDs.
+    definition: "A `TEST-NNNNNN` verifies that a targeted rule actually holds — a development artifact like `BUG-`/`REQ-`/`HK-`, always carrying its own `Targets`/`Domain` and subject to the same \"no development without a targeted rule\" gate. On top of that, a test may independently name `(0,n)` requirements and `(0,n)` steps it verifies — both optional, and neither implies the other: one requirement or step may be verified by several tests, and one test may verify several requirements and/or steps at once. Lives in `tests/`, created via `/create-test`."
+  STEP:
+    name: "Step"
+    folder: steps
+    grounding: inherited
+    grounding_field: Parent
+    status_hint: "exactly one of `planned` / `in-progress` / `done` / `abandoned` (the step ETD's `allowed_values`, lowercase; starts `planned`; `done` and `abandoned` are its closed states)"
+    fields:
+      Parent:
+        kind: ref
+        required: true
+        to: [REQ, BUG]
+        backref: Steps
+        hint: "`REQ-NNNNNN` or `BUG-NNNNNN` this step implements — **required, never empty, exactly one**"
+      Closed:
+        kind: text
+        hint: "YYYY-MM-DD — blank until `done` or `abandoned`"
+      Tests:
+        kind: ref-list
+        to: TEST
+        hint: "`TEST-NNNNNN` list of tests that verify this step — empty until `/create-test` names it; back-populated automatically, never hand-edited (`Rules-of-Rules.md` rr-SE-004)"
+    states: [planned, in-progress, done, abandoned]
+    initial: planned
+    closed: [done, abandoned]
+    guards:
+      done:
+        - section_written: Verification
+    sections:
+      - Description: |
+          What this concrete unit of work does, and why it's its own step rather
+          than folded into another one — usually because it's independently
+          verifiable, or a natural checkpoint in the parent's implementation.
+      - Actions performed: |
+          The literal record: files changed, commands run, decisions made, in the
+          order they happened. Concrete enough that someone reconstructing this
+          work from scratch could follow it — not a restatement of the
+          Description above.
+
+          - ...
+          - ...
+      - Verification: |
+          How this step's result was actually confirmed — a test run, a manual
+          check, a script's output against a known-good fixture. `abandoned`
+          steps explain why here instead.
+      - Related: |
+          Other `STEP-`/`REQ-`/`BUG-`/`TEST-` IDs this depends on, blocks, or was split from.
+    definition: "A `STEP-NNNNNN` records one concrete unit of implementation work performed toward exactly one parent — a `REQ-NNNNNN` requirement or a `BUG-NNNNNN` bug, named in its `Parent` field — the files touched, commands run, and how it was verified. Never a rule-linked claim of its own: it inherits its parent's already-vetted rule target and exists purely to give that parent's real implementation history a structured, itemized record instead of only prose. A parent accumulates zero to many steps over its lifecycle and does not move to a closed state (requirement: `Completed`/`Abandoned`; bug: `Closed`/`WontFix`) until every listed step is `done` or `abandoned`; a requirement also needs at least one step before it closes, a bug does not. Lives in `steps/`, created via `/create-step`."
+  FEAT:
+    name: "Feature"
+    folder: features
+    grounding: none
+    status_hint: "exactly one of `Draft` / `Triaged` / `Active` / `Completed` / `Abandoned` (the feature ETD's `allowed_values`; starts `Draft`; `Completed` and `Abandoned` are its closed states)"
+    fields:
+      Area:
+        kind: text
+        hint: "free-text product/functional area label"
+      Roadmap:
+        kind: ref
+        to: RM
+        hint: "`RM-NNNNNN` this feature was triaged from, if any — empty if it didn't originate from an ingested `development/roadmaps/<name>.md` item"
+      Requirement(s):
+        kind: ref-list
+        to: REQ
+        hint: "`REQ-NNNNNN` list, filled in once development starts — empty while still an idea"
+    states: [Draft, Triaged, Active, Completed, Abandoned]
+    initial: Draft
+    closed: [Completed, Abandoned]
+    sections:
+      - Description: |
+          What the feature does, from the user's/operator's point of view.
+      - Motivation: |
+          Why this is worth building — the problem or opportunity. A feature may
+          sit entirely outside current rule coverage; that's expected here, not a
+          gap to resolve in this document.
+      - Rough scope: |
+          What's likely in, what's likely out. Not a commitment — refined and made
+          concrete when a `REQ-NNNNNN` requirement is opened.
+      - Open questions: |
+          - ...
+      - Related: |
+          Other `FEAT-` IDs this relates to, supersedes, or is superseded by, and,
+          once opened, the `REQ-NNNNNN` requirement(s) that implement it.
+    definition: "A `FEAT-NNNNNN` entry documents a new or future piece of product functionality — an idea, a roadmap item, a direction — before any work has actually started on it. Unlike a requirement, a feature is never rule-linked or measured for completion: no Domain, no Targets, exempt from the \"no development without a targeted rule\" rule. Once work begins, a `REQ-NNNNNN` requirement is opened and linked back to it. Lives in `features/`, registered in `features.md`."
+  RM:
+    name: "Roadmap"
+    folder: roadmaps
+    location: development
+    grounding: none
+    storage: rows
+    fields:
+      Linked:
+        kind: ref-list
+        to: [FEAT, REQ]
+    states: ["Not triaged", Triaged, "In progress", Done]
+    initial: "Not triaged"
+    closed: [Done]
+    definition: "A named roadmap file (`development/roadmaps/<name>.md`) holds a table of `RM- NNNNNN` rows — externally-sourced product ideas ingested via `/roadmap-add`, kept current via `/roadmap-update`/`/roadmap-merge`, with `Status`/`Linked` columns refreshed by `/show-backlog` as rows get triaged into real `FEAT-`/`REQ-` work. Unlike every other artifact type, a roadmap file isn't filled in once by hand — it's a living, externally-fed table, registered in `development/roadmaps/roadmaps.md`."
 
 commands:
   - name: create-req
@@ -66,18 +444,7 @@ commands:
     argument_hint: "<name> <update file>"
 
 templates:
-  - entity_type: BUG
-    template_path: templates/bug.template.md
-  - entity_type: REQ
-    template_path: templates/requirement.template.md
-  - entity_type: HK
-    template_path: templates/house-keeping.template.md
-  - entity_type: TEST
-    template_path: templates/test.template.md
-  - entity_type: STEP
-    template_path: templates/step.template.md
-  - entity_type: FEAT
-    template_path: templates/feature.template.md
+  # A named roadmap's file (RM items are rows of it, not files).
   - entity_type: RM
     template_path: templates/roadmap.template.md
   # Index (catalog) templates for the entity folders' index files.
@@ -87,30 +454,15 @@ templates:
     template_path: templates/features.template.md
 
 definitions:
-  - entity_type: BUG
-    path: definitions/bug/DEFINITION-BUG-v2.md
-  - entity_type: REQ
-    path: definitions/requirement/DEFINITION-REQUIREMENT-v1.md
-  - entity_type: HK
-    path: definitions/house-keeping/DEFINITION-HOUSE-KEEPING-v1.md
-  - entity_type: TEST
-    path: definitions/test/DEFINITION-TEST-v1.md
-  - entity_type: STEP
-    path: definitions/step/DEFINITION-STEP-v2.md
-  - entity_type: FEAT
-    path: definitions/feature/DEFINITION-FEATURE-v1.md
-  - entity_type: RM
-    path: definitions/roadmap/DEFINITION-ROADMAP-v1.md
   - entity_type: backlog
     path: definitions/backlog/DEFINITION-BACKLOG-v2.md
 
-# Paths every deployment must carry (enforced by catalyst's check_deployment.py).
 required_paths:
   - path: development/BACKLOG.md
-    invariant: INV-14
+    invariant: INV-SE-2
     seed: templates/backlog.template.md
   - path: development/roadmaps/roadmaps.md
-    invariant: INV-15
+    invariant: INV-SE-3
     seed: templates/roadmap.template.md
 
 contributions:

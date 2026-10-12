@@ -2,8 +2,10 @@
 
 > Module contribution (`MODULE-SPECIFICATION.md` §6.1): appended to the
 > deployed `rules/Rules-of-Rules.md`, after the kernel's handbook, under
-> `### From module software-engineering`. It never replaces kernel content;
-> the meta-rules that moved here keep their `rr-META-NNN` IDs.
+> `### From module software-engineering`. It never replaces kernel content.
+> Its meta-rules are numbered in the module's namespace, `rr-SE-NNN`; the
+> `rr-META-009`, `-010`, `-021` and `-022` they were before resolve to them
+> through `module.yaml` `aliases:`, so what cites the old IDs stays valid.
 
 This module's work is bugs (`BUG-`), requirements (`REQ-`), house-keeping
 items (`HK-`) and tests (`TEST-`), each targeting the rules it serves;
@@ -23,14 +25,14 @@ statuses and files are the entity definitions' (`definitions/`) and
 A house-keeping item records maintenance that may name "no rule" explicitly.
 A bug never introduces a rule; new behaviour is always a requirement.
 
-## 9. `rr-META-009` Features are ideas; requirements are work
+## 1. `rr-SE-001` Features are ideas; requirements are work
 
 A `FEAT-` records a possible future capability — an idea, not a claim about
 behaviour. It is never itself implemented or done. When work on it starts,
 open a `REQ-` (never a `BUG-`) for the rules it needs; the feature records
 which requirements came from it.
 
-## 10. `rr-META-010` Roadmap items decompose into requirements
+## 2. `rr-SE-002` Roadmap items decompose into requirements
 
 An `RM-` row records a direction an outside source named. When it is worth
 tracking, `/create-feature` opens a `FEAT-` for it; a roadmap item of real
@@ -39,7 +41,7 @@ rather than one oversized requirement. Its `Status` and `Linked` columns are
 derived by `/show-backlog`, never a second source of truth. A named roadmap
 whose rows are linked is retired, never deleted.
 
-## 21. `rr-META-021` Steps record the work as it happens
+## 3. `rr-SE-003` Steps record the work as it happens
 
 A `STEP-` is one concrete unit of work toward exactly one requirement or
 bug (`Parent`): what was changed, run and verified. Open it when that work
@@ -48,7 +50,7 @@ inherits its parent's rules. A requirement or bug does not close while one
 of its steps is open; a step is not `done` without its Verification, and
 `abandoned` needs a reason there.
 
-## 22. `rr-META-022` Tests are grounded like requirements
+## 4. `rr-SE-004` Tests are grounded like requirements
 
 A `TEST-` targets the rules it verifies, like a bug or a requirement, and
 may name the requirements and steps it verifies (both optional, many to

@@ -2,7 +2,7 @@
 
 > Copy this file to `development/roadmaps/templates/TEMPLATE-ROADMAP-v1.md`
 > on first deploy (see `INSTANTIATION-GUIDE.md` and `INVARIANTS.module.md`
-> INV-15 and `INVARIANTS.md` INV-20), the same way every other `TEMPLATE-<TYPE>-vN.md` seeds
+> INV-SE-3 and `INVARIANTS.md` INV-20), the same way every other `TEMPLATE-<TYPE>-vN.md` seeds
 > its type. `/roadmap-add
 > <name> <file>` then copies *this* template to
 > `development/roadmaps/<name>.md` each time a new named roadmap is
@@ -14,12 +14,12 @@
 > or update its `RM-NNNNNN` rows from an external source file, and
 > `/show-backlog` refreshes each row's `Status`/`Linked` columns from
 > every `FEAT-`/`REQ-` currently linked to it — `Linked` is a
-> comma-separated list, not a single ID (`Rules-of-Rules.md` §21: a
+> comma-separated list, not a single ID (`Rules-of-Rules.md` rr-SE-003: a
 > roadmap item of real size is expected to decompose into more than one
 > requirement). Hand-edit the `Notes` column freely; never hand-edit
 > `Status` or `Linked` — the next `/show-backlog` run overwrites them
 > from the real indexes, the same way it overwrites
-> `development/BACKLOG.md` (INV-14).
+> `development/BACKLOG.md` (INV-SE-2).
 
 **Name:** {{name — the identifier used in `/roadmap-add`/`-remove`/`-update`/`-merge`, and this file's own filename}}
 **Source:** {{the file path last ingested via `/roadmap-add` or `/roadmap-update` — `/roadmap-merge` does not change this}}
@@ -72,7 +72,7 @@ These four are the roadmap ETD's `allowed_values`, exactly as spelled; `Done` is
   inside catalyst, at which point `/create-feature` opens its `FEAT-NNNNNN`
   (citing this row's `RM-NNNNNN` ID in the feature's own `Roadmap` field).
 - From there, the normal `FEAT-` → `REQ-` promotion applies
-  (`Rules-of-Rules.md` §9/§10/§21, `INVARIANTS.module.md` INV-9) — one or more
+  (`Rules-of-Rules.md` rr-SE-001/002/003, `INVARIANTS.module.md` INV-SE-1) — one or more
   times, once per requirement the item decomposes into; this file's
   `Status`/`Linked` columns always mirror every artifact currently linked,
   refreshed by `/show-backlog` — never edited here directly.

@@ -9,7 +9,9 @@ module-agnostic. Paths below such as `framework/…`, `scripts/…` and
 `tests/` are relative to the catalyst repository unless stated otherwise;
 the module's own files now sit at this repository's root (`module.yaml`,
 `schemas/`, `templates/`, `definitions/`, `migrations/`; the `commands/`
-folder was later dropped for `code-of-conduct.module.md` §4) rather
+folder was later dropped for `code-of-conduct.module.md` §4, and module
+3.0.0 folded `schemas/`, the item templates and the type definitions into
+`module.yaml`, catalyst's module format v3) rather
 than under `modules/software-engineering/`. `WORKFLOW` and `RECON` have
 since been assigned to the kernel (catalyst's `framework/kernel/entities/`).  
 **Objective:** Decouple all Software Engineering-specific concepts (entity types, templates, slash commands, agent skills, validators, and rule invariants) into a standalone, pluggable module (`software-engineering`). Upon completion of this roadmap, Catalyst's kernel will be fully process-agnostic, and all existing software engineering workflows will function with **100% feature parity and identical behavior**.
