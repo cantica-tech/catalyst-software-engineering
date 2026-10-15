@@ -8,41 +8,11 @@
 # caller's directory (the composer adds its `dir:`).
 #
 # Usage: catalyst task <command-name> -- <arguments>
-#   e.g. catalyst task create-bug -- "flaky test in checkout flow"
+#   e.g. catalyst task roadmap -- add product-2027 roadmap.md
 
 version: "3"
 
 tasks:
-  create-bug:
-    desc: "Create a new bug artifact and register it in development/bugs/bugs.md"
-    cmds:
-      - '{{.AGENT_CMD}} "/create-bug {{.CLI_ARGS}}"'
-
-  create-req:
-    desc: "Create a new requirement artifact and register it in requirements/requirements.md"
-    cmds:
-      - '{{.AGENT_CMD}} "/create-req {{.CLI_ARGS}}"'
-
-  create-requirement:
-    desc: "Alias of create-req"
-    cmds:
-      - '{{.AGENT_CMD}} "/create-requirement {{.CLI_ARGS}}"'
-
-  create-feature:
-    desc: "Create a new feature entry in features/features.md (not rule-linked)"
-    cmds:
-      - '{{.AGENT_CMD}} "/create-feature {{.CLI_ARGS}}"'
-
-  create-step:
-    desc: "Create a new step against an existing requirement or bug: <REQ-id|BUG-id>"
-    cmds:
-      - '{{.AGENT_CMD}} "/create-step {{.CLI_ARGS}}"'
-
-  create-test:
-    desc: "Create a new test artifact and register it in tests/tests.md"
-    cmds:
-      - '{{.AGENT_CMD}} "/create-test {{.CLI_ARGS}}"'
-
   roadmap:
     desc: "Named roadmaps: add <name> <file> | update <name> <file> | merge <name> <update file> | remove <name>"
     cmds:

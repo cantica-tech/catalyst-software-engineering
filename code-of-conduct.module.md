@@ -39,12 +39,12 @@ ends with `CODE-OF-CONDUCT.md` §4's common steps: `catalyst index regen`,
 `catalyst journal append`, and `catalyst check` where no end-of-turn hook
 runs it.
 
-- `/create-bug` — create a new bug artifact immediately, register it in
+- `/create bug <title>` (`/create-bug`) — create a new bug artifact immediately, register it in
   `development/bugs/bugs.md`, and track it in the same workflow as any other bug.
-- `/create-req` or `/create-requirement` — create a new requirement artifact
+- `/create req <title>` (`/create-req`, `/create-requirement`) — create a new requirement artifact
   immediately, register it in `requirements/requirements.md`, and track it in
   the same workflow.
-- `/create-test` — create a new test artifact immediately, register it in
+- `/create test <title>` (`/create-test`) — create a new test artifact immediately, register it in
   `tests/tests.md`, and track it in the same workflow as any other development
   artifact. Prompts for a rule target and domain like
   `/create-bug`/`/create-req` — a test is not exempt from `CODE-OF-CONDUCT.md`
@@ -52,11 +52,11 @@ runs it.
   (`Rules-of-Rules.md` `rr-SE-004`); neither is required. Named
   requirements/steps get the new test's ID appended to their own `Tests` field
   in the same action.
-- `/create-feature` — create a new feature entry immediately and register it
+- `/create feature <title>` (`/create-feature`) — create a new feature entry immediately and register it
   in `features/features.md`. Unlike `/create-bug`/`/create-req`, this never
   prompts for a rule target or domain — features are not rule-linked (see
   `Rules-of-Rules.md` `rr-SE-001`).
-- `/create-step <REQ-id|BUG-id>` — create a new step immediately against
+- `/create step <REQ-id|BUG-id> <title>` (`/create-step`) — create a new step immediately against
   an existing requirement or bug, register it in `steps/steps.md`, and
   append its ID to that parent's own `Steps` field. Like `/create-feature`,
   never prompts for a rule target or domain — a step inherits its
@@ -81,21 +81,21 @@ runs it.
   active `development/roadmaps/<name>.md`'s Status/Linked columns from
   the `FEAT-`/`REQ-` each row is linked to.
 
-When the user enters `/create-bug: ...`, run `catalyst new BUG --title "<t>"
+When the user enters `/create bug: ...` or `/create-bug: ...`, run `catalyst new BUG --title "<t>"
 --field Targets=<rule IDs> --field Domain=<CODE> --field Severity=<Critical|High|Medium|Low>
 --command /create-bug --tier fix --as <signer>` (it allocates the ID, fills
 and signs the template, starts it `Open`, indexes and journals it), then
 write its sections. If the domain cannot be inferred from context, prompt for
 the domain and rule first.
 
-When the user enters `/create-req:` or `/create-requirement: ...`, run
+When the user enters `/create req: ...`, `/create-req:` or `/create-requirement: ...`, run
 `catalyst new REQ --title "<t>" --field Targets=<rule IDs> --field Domain=<CODE>
 [--field Feature=<FEAT-id>] --command /create-req --tier feature --as <signer>`
 (it starts `Draft` and cites the requirement back in the feature's
 `Requirement(s)`), then write its sections. If the domain or target rule
 cannot be inferred, prompt for both first.
 
-When the user enters `/create-test: ...`, run `catalyst new TEST --title "<t>"
+When the user enters `/create test: ...` or `/create-test: ...`, run `catalyst new TEST --title "<t>"
 --field Targets=<rule IDs> --field Domain=<CODE> [--field Requirements=<REQ-ids>]
 [--field Steps=<STEP-ids>] --command /create-test --tier feature --as <signer>`
 (it refuses an ID that doesn't exist and cites the test back in each named
@@ -103,7 +103,7 @@ requirement's/step's `Tests`), then write its sections. A test is not exempt
 from `CODE-OF-CONDUCT.md` §1: if the domain or target rule cannot be
 inferred, prompt for both first.
 
-When the user enters `/create-feature: ...`, run `catalyst new FEAT --title "<t>"
+When the user enters `/create feature: ...` or `/create-feature: ...`, run `catalyst new FEAT --title "<t>"
 [--field Roadmap=<RM-id>] --command /create-feature --as <signer>`, then write
 its sections. It is idea/roadmap content, not rule-linked development work:
 do not prompt for a domain or rule target — neither field exists on this
@@ -121,7 +121,7 @@ more than one requirement, each added to `Linked` as it's opened, per
 hand, and journaled with `catalyst journal append --action update` (no
 `--target`: features are not rule-linked).
 
-When the user enters `/create-step <REQ-id|BUG-id>: ...`, run `catalyst new
+When the user enters `/create step <REQ-id|BUG-id>: ...` or `/create-step ...`, run `catalyst new
 STEP --title "<t>" --field Parent=<REQ-id|BUG-id> [--field Status=in-progress]
 --command /create-step --tier feature --as <signer>` (`--tier fix` when the
 parent is a `BUG-`). It refuses a parent that doesn't exist and cites the
