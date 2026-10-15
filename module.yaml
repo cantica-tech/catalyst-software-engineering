@@ -408,7 +408,7 @@ entities:
     states: ["Not triaged", Triaged, "In progress", Done]
     initial: "Not triaged"
     closed: [Done]
-    definition: "A named roadmap file (`development/roadmaps/<name>.md`) holds a table of `RM- NNNNNN` rows — externally-sourced product ideas ingested via `/roadmap-add`, kept current via `/roadmap-update`/`/roadmap-merge`, with `Status`/`Linked` columns refreshed by `/show-backlog` as rows get triaged into real `FEAT-`/`REQ-` work. Unlike every other artifact type, a roadmap file isn't filled in once by hand — it's a living, externally-fed table, registered in `development/roadmaps/roadmaps.md`."
+    definition: "A named roadmap file (`development/roadmaps/<name>.md`) holds a table of `RM- NNNNNN` rows — externally-sourced product ideas ingested via `/roadmap add`, kept current via `/roadmap update|merge`, with `Status`/`Linked` columns refreshed by `/show-backlog` as rows get triaged into real `FEAT-`/`REQ-` work. Unlike every other artifact type, a roadmap file isn't filled in once by hand — it's a living, externally-fed table, registered in `development/roadmaps/roadmaps.md`."
 
 commands:
   - name: create-req
@@ -430,18 +430,9 @@ commands:
     argument_hint: "<parent-id>"
   - name: show-backlog
     description: Display work item and artifact backlog
-  - name: roadmap-add
-    description: Ingest a new named roadmap from a local file
-    argument_hint: "<name> <file>"
-  - name: roadmap-remove
-    description: Delete a named roadmap, or retire it in place if linked
-    argument_hint: "<name>"
-  - name: roadmap-update
-    description: Re-ingest a file as the new full version of a named roadmap
-    argument_hint: "<name> <file>"
-  - name: roadmap-merge
-    description: Fold a partial delta file into an existing named roadmap
-    argument_hint: "<name> <update file>"
+  - name: roadmap
+    description: "Named roadmaps: add, update, merge or remove one"
+    argument_hint: "add|update|merge|remove <name> [<file>]"
 
 templates:
   # A named roadmap's file (RM items are rows of it, not files).
