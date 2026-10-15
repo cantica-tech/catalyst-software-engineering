@@ -62,8 +62,8 @@ runs it.
   never prompts for a rule target or domain — a step inherits its
   parent's (see `Rules-of-Rules.md` `rr-SE-003`). Refuses if `<REQ-id|BUG-id>`
   doesn't resolve to an existing requirement or bug.
-- `/roadmap add|update|merge|remove <name> [<file>]` (`/roadmap add`,
-  `/roadmap update`, `/roadmap merge`, `/roadmap remove`) — the named
+- `/roadmap add|update|merge|remove <name> [<file>]` (`/roadmap-add`,
+  `/roadmap-update`, `/roadmap-merge`, `/roadmap-remove`) — the named
   roadmaps of `development/roadmaps/` (see `Rules-of-Rules.md` `rr-SE-002`):
   `add <name> <file>` ingests a new one from a local file, creating
   `development/roadmaps/<name>.md` from `templates/roadmap.template.md` and
