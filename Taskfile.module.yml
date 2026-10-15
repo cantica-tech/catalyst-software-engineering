@@ -43,25 +43,10 @@ tasks:
     cmds:
       - '{{.AGENT_CMD}} "/create-test {{.CLI_ARGS}}"'
 
-  roadmap-add:
-    desc: "Ingest a new named roadmap from a local file: <name> <file>"
+  roadmap:
+    desc: "Named roadmaps: add <name> <file> | update <name> <file> | merge <name> <update file> | remove <name>"
     cmds:
-      - '{{.AGENT_CMD}} "/roadmap-add {{.CLI_ARGS}}"'
-
-  roadmap-remove:
-    desc: "Delete or retire a named roadmap: <name>"
-    cmds:
-      - '{{.AGENT_CMD}} "/roadmap-remove {{.CLI_ARGS}}"'
-
-  roadmap-update:
-    desc: "Re-ingest a file as the new full, authoritative roadmap version: <name> <file>"
-    cmds:
-      - '{{.AGENT_CMD}} "/roadmap-update {{.CLI_ARGS}}"'
-
-  roadmap-merge:
-    desc: "Fold a partial delta file into an existing roadmap: <name> <update file>"
-    cmds:
-      - '{{.AGENT_CMD}} "/roadmap-merge {{.CLI_ARGS}}"'
+      - '{{.AGENT_CMD}} "/roadmap {{.CLI_ARGS}}"'
 
   show-backlog:
     desc: "Summarize open work/blockers and refresh BACKLOG.md and roadmaps"

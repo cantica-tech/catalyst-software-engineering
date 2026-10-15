@@ -31,7 +31,7 @@ a kernel invariant and keep its number.
 | INV-5 chain (module part) | L2, SE-L1 | `validate` |
 | INV-SE-1 requirements, not bugs, for new work | SE-L1 | `validate` |
 | INV-SE-2 persisted backlog | L6 | `/show-backlog` regenerates it, `check` |
-| INV-SE-3 machine-maintained roadmaps | L6 | the `/roadmap-*` commands, `check` |
+| INV-SE-3 machine-maintained roadmaps | L6 | `/roadmap`, `check` |
 | INV-16 advisory role signing (module part) | L7, L4 | `check` |
 | INV-26 signed entity IDs (module part) | L7 | `id next`, `check` |
 | INV-SE-4 ceremony follows the tier | L2, SE-L1 | journal `tier`, `required_when_closed`, `check` |
@@ -58,10 +58,10 @@ a kernel invariant and keep its number.
   the real indexes.
 - **INV-SE-3 — Machine-maintained roadmap tracking.** `development/roadmaps/`
   and its `roadmaps.md` index always exist (empty is fine); individual named
-  roadmaps are created only via `/roadmap-add`. In every
+  roadmaps are created only via `/roadmap add`. In every
   `development/roadmaps/<name>.md`, the Status/Linked columns are set only
-  by the `/roadmap-*` commands and `/show-backlog` — never hand-edited.
-  `/roadmap-remove` never deletes a roadmap with linked items; it retires
+  by `/roadmap` and `/show-backlog` — never hand-edited.
+  `/roadmap remove` never deletes a roadmap with linked items; it retires
   it in place.
 - **INV-16 — Advisory role signing *(module part)*.** Every dev-artifact
   (`BUG-`/`REQ-`/`HK-`/`TEST-`), step, feature, and roadmap item carries a

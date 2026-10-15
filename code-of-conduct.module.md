@@ -62,22 +62,20 @@ runs it.
   never prompts for a rule target or domain — a step inherits its
   parent's (see `Rules-of-Rules.md` `rr-SE-003`). Refuses if `<REQ-id|BUG-id>`
   doesn't resolve to an existing requirement or bug.
-- `/roadmap-add <name> <file>` — ingest a new named roadmap from a local
-  file, creating `development/roadmaps/<name>.md` from
-  `templates/roadmap.template.md` and registering it in
-  `development/roadmaps/roadmaps.md` (see `Rules-of-Rules.md` `rr-SE-002`).
-  Refuses if `<name>` already exists — use `/roadmap-update` or
-  `/roadmap-merge` instead.
-- `/roadmap-remove <name>` — delete `development/roadmaps/<name>.md` and
-  its `roadmaps.md` entry if no row is linked to a `FEAT-`/`REQ-`;
-  otherwise retire it in place (never hard-deletes a linked roadmap).
-- `/roadmap-update <name> <file>` — re-ingest `<file>` as the new full,
-  authoritative version of an existing named roadmap: add new rows,
-  update matched rows, flag (never delete) rows missing from the new
-  file.
-- `/roadmap-merge <name> <update file>` — fold a partial delta file into
-  an existing named roadmap: add/update only the rows the delta
-  mentions, without flagging anything as missing.
+- `/roadmap add|update|merge|remove <name> [<file>]` (`/roadmap add`,
+  `/roadmap update`, `/roadmap merge`, `/roadmap remove`) — the named
+  roadmaps of `development/roadmaps/` (see `Rules-of-Rules.md` `rr-SE-002`):
+  `add <name> <file>` ingests a new one from a local file, creating
+  `development/roadmaps/<name>.md` from `templates/roadmap.template.md` and
+  registering it in `development/roadmaps/roadmaps.md`, and refuses if
+  `<name>` already exists; `update <name> <file>` re-ingests `<file>` as
+  its new full, authoritative version: add new rows, update matched rows,
+  flag (never delete) rows missing from the new file; `merge <name>
+  <update file>` folds a partial delta in: add/update only the rows the
+  delta mentions, flagging nothing as missing; `remove <name>` deletes
+  the file and its `roadmaps.md` entry if no row is linked to a
+  `FEAT-`/`REQ-`, otherwise retires it in place (never hard-deletes a
+  linked roadmap).
 - `/show-backlog` — summarize open work, blockers, and missing links,
   refresh `development/BACKLOG.md` with the result, and refresh every
   active `development/roadmaps/<name>.md`'s Status/Linked columns from
@@ -131,9 +129,9 @@ step back in the parent's `Steps`. Do not prompt for a domain or rule
 target — the step inherits its parent's `Targets`/`Domain`. A step starts
 `planned` unless the user says work is already underway (`in-progress`).
 
-When the user enters `/roadmap-add <name> <file>: ...`, refuse with a clear
+When the user enters `/roadmap add <name> <file>: ...`, refuse with a clear
 message if `development/roadmaps/<name>.md` already exists (point to
-`/roadmap-update`/`/roadmap-merge`). Otherwise read `<file>` from the
+`/roadmap update`/`/roadmap merge`). Otherwise read `<file>` from the
 local filesystem, identify its distinct items, and create
 `development/roadmaps/<name>.md` from `templates/roadmap.template.md` with
 one `RM-NNNNNN` row per item (`Description`: a sentence or two summarizing
@@ -147,7 +145,7 @@ generated index), journal it with
 `catalyst journal append --action create`, then report the roadmap name
 and the IDs assigned.
 
-When the user enters `/roadmap-remove <name>`, refuse with a clear message
+When the user enters `/roadmap remove <name>`, refuse with a clear message
 if `development/roadmaps/<name>.md` does not exist. If every row's `Linked`
 field is empty, delete the file and its `roadmaps.md` entry outright and
 report that. If any row has a non-empty `Linked` field, do **not** delete
@@ -158,11 +156,11 @@ removing it would break a live `FEAT-`/`REQ-` cross-reference. Either way,
 journal it with `catalyst journal append --action retire` covering the
 roadmap file and `roadmaps.md`.
 
-When the user enters `/roadmap-update <name> <file>: ...`, refuse with a
+When the user enters `/roadmap update <name> <file>: ...`, refuse with a
 clear message if `development/roadmaps/<name>.md` does not exist (point to
-`/roadmap-add`). Otherwise treat `<file>` as the new full, authoritative
+`/roadmap add`). Otherwise treat `<file>` as the new full, authoritative
 version of this roadmap: add a new `RM-NNNNNN` row for each item not already
-present (with its own `Description`, same rule as `/roadmap-add`, numbered
+present (with its own `Description`, same rule as `/roadmap add`, numbered
 from `catalyst id next RM`), update
 the `Title`/`Description`/`Notes` of any row that matches an item in
 `<file>` by title/description similarity (ask the user rather than
@@ -172,11 +170,11 @@ Update the file's `Source` and `Last updated` fields, journal it with
 `catalyst journal append --action update`, then report a short summary of
 what was added/updated/flagged.
 
-When the user enters `/roadmap-merge <name> <update file>: ...`, refuse
+When the user enters `/roadmap merge <name> <update file>: ...`, refuse
 with a clear message if `development/roadmaps/<name>.md` does not exist
-(point to `/roadmap-add`). Otherwise treat `<update file>` as a partial
+(point to `/roadmap add`). Otherwise treat `<update file>` as a partial
 delta, not the full roadmap: apply the same add/update matching rule as
-`/roadmap-update` for only the items `<update file>` actually contains,
+`/roadmap update` for only the items `<update file>` actually contains,
 but do not compare against or flag any row it doesn't mention, and do not
 change the `Source` field — only `Last updated`. Journal it with
 `catalyst journal append --action update`, then report a short summary of
