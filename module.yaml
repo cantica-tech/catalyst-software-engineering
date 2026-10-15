@@ -1,6 +1,6 @@
 id: software-engineering
 name: Software Engineering Process Module
-version: 3.0.0
+version: 3.1.0
 description: Standard software engineering process module governing requirements, bugs, house-keeping, tests, steps, features, and roadmaps.
 grounding_type: rule
 format: 3
@@ -19,7 +19,7 @@ aliases:
   INV-15: INV-SE-3
   INV-27: INV-SE-4
   INV-28: INV-SE-5
-kernel_version: ">=0.57.0"
+kernel_version: ">=0.68.0"
 
 # Ceremony tiers (rr-META-006, kernel >=0.55.0 reads them; an older kernel
 # applies the same three by default). SE-L1: the tier decides the artifact.
