@@ -1,7 +1,7 @@
 id: software-engineering
 name: Software Engineering Process Module
-version: 3.2.0
-description: Standard software engineering process module governing requirements, bugs, house-keeping, tests, steps, features, and roadmaps.
+version: 3.3.0
+description: Standard software engineering process module governing requirements, bugs, house-keeping, tests, steps, features, roadmaps, and decisions.
 grounding_type: rule
 format: 3
 
@@ -395,6 +395,47 @@ entities:
           Other `FEAT-` IDs this relates to, supersedes, or is superseded by, and,
           once opened, the `REQ-NNNNNN` requirement(s) that implement it.
     definition: "A `FEAT-NNNNNN` entry documents a new or future piece of product functionality — an idea, a roadmap item, a direction — before any work has actually started on it. Unlike a requirement, a feature is never rule-linked or measured for completion: no Domain, no Targets, exempt from the \"no development without a targeted rule\" rule. Once work begins, a `REQ-NNNNNN` requirement is opened and linked back to it. Lives in `features/`, registered in `features.md`."
+  ADR:
+    name: "Decision"
+    folder: decisions
+    grounding: none
+    status_hint: "exactly one of `Proposed` / `Accepted` / `Rejected` / `Superseded` (the decision ETD's `allowed_values`; starts `Proposed`; `Accepted`, `Rejected` and `Superseded` are its closed states)"
+    fields:
+      Rules:
+        kind: ref-list
+        to: rule
+        hint: "the rule IDs this decision shapes — the rules it introduces, changes or retires, or that carry it out; empty while it shapes none"
+      Decided:
+        kind: text
+        hint: "YYYY-MM-DD — blank until `Accepted` or `Rejected`"
+      Decided by:
+        kind: text
+        hint: "the person who took it — a registered user's name; never an agent (L4)"
+      Supersedes:
+        kind: ref-list
+        to: ADR
+        backref: Superseded by
+        hint: "`ADR-NNNNNN` list this decision replaces; each is set `Superseded`, never edited away (`Rules-of-Rules.md` rr-SE-005)"
+      Superseded by:
+        kind: ref-list
+        to: ADR
+        hint: "`ADR-NNNNNN` that replaced it — back-populated from the newer decision's `Supersedes`, never hand-edited"
+    states: [Proposed, Accepted, Rejected, Superseded]
+    initial: Proposed
+    closed: [Accepted, Rejected, Superseded]
+    sections:
+      - Context: |
+          The forces at play: what made a decision necessary, what was known,
+          and the constraints. Written so a reader who was not there
+          understands why the question came up.
+      - Decision: |
+          What was decided, in one or two sentences a reader can act on.
+      - Alternatives considered: |
+          The options weighed and why each was not taken.
+      - Consequences: |
+          What follows, good and bad: what becomes easier, what becomes harder,
+          and what must now change — the rules under `Rules` among them.
+    definition: "An `ADR-NNNNNN` records one decision: its context, what was decided, the alternatives weighed and its consequences, who took it and when, and the rules it shapes (`Rules`). A decision is never rewritten once taken: a later one that replaces it names it under `Supersedes`, and it becomes `Superseded`. Like a feature it is not grounded (a decision may come before any rule), and it is not work: no tier, no steps. Lives in `decisions/`, registered in `decisions.md`."
   RM:
     name: "Roadmap"
     folder: roadmaps
@@ -428,6 +469,9 @@ commands:
   - name: create-step
     description: Create a new step artifact under a requirement or bug
     argument_hint: "<parent-id>"
+  - name: create-adr
+    description: Record a decision (ADR) and the rules it shapes
+    argument_hint: "[<rule-id>...]"
   - name: show-backlog
     description: Display work item and artifact backlog
   - name: roadmap

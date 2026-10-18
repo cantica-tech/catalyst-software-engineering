@@ -6,10 +6,10 @@ This module declares entity types, template artifacts, and slash-command specifi
 
 ## Contents
 
-- **`module.yaml`**: The module in catalyst's module format v3: its metadata, tiers, the namespace `SE` of its meta-rules (`rr-SE-NNN`) and invariants (`INV-SE-n`) with `aliases:` for the IDs they had before, and its entity types (`BUG`, `REQ`, `HK`, `TEST`, `STEP`, `FEAT`, `RM`) — fields, states, guards, sections and definitions — from which catalyst generates each type's item template and definition.
+- **`module.yaml`**: The module in catalyst's module format v3: its metadata, tiers, the namespace `SE` of its meta-rules (`rr-SE-NNN`) and invariants (`INV-SE-n`) with `aliases:` for the IDs they had before, and its entity types (`BUG`, `REQ`, `HK`, `TEST`, `STEP`, `FEAT`, `ADR`, `RM`) — fields, states, guards, sections and definitions — from which catalyst generates each type's item template and definition.
 - **`version.txt`**: Module version indicator, the same as `module.yaml`'s `version`.
 - **`templates/`**: The templates catalyst does not generate: the backlog, a named roadmap's file, and the requirements and features indexes.
-- **`code-of-conduct.module.md`**: The module's document types and slash commands (`create-req` and its alias `create-requirement`, `create-bug`, `create-test`, `create-feature`, `create-step`, `show-backlog`, `roadmap` (its old `roadmap-add|remove|update|merge` kept as aliases)), composed into the deployed `CODE-OF-CONDUCT.md` §4; agents get them as prompts of the `catalyst mcp` server, and no command file is written into a project.
+- **`code-of-conduct.module.md`**: The module's document types and slash commands (`create-req` and its alias `create-requirement`, `create-bug`, `create-test`, `create-feature`, `create-step`, `create-adr`, `show-backlog`, `roadmap` (its old `roadmap-add|remove|update|merge` kept as aliases)), composed into the deployed `CODE-OF-CONDUCT.md` §4; agents get them as prompts of the `catalyst mcp` server, and no command file is written into a project.
 - **`definitions/`**: The backlog's frozen, versioned definition (`MODULE-SPECIFICATION.md` §6.3); the entity types' definitions are generated from `module.yaml`.
 - **`migrations/`**: One-time migrations for the module's entity shapes, indexed in `migrations/migrations.md`.
 - **`INVARIANTS.module.md`**: The module's invariants (INV-5/16/26 module parts, INV-SE-1, INV-SE-2, INV-SE-3, INV-SE-4, INV-SE-5), read together with the kernel's `INVARIANTS.md`.

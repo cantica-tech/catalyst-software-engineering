@@ -23,6 +23,7 @@
 | Feature | `features/` | `FEAT-` | no |
 | Roadmap item | `development/roadmaps/<name>.md` (rows) | `RM-` | no |
 | Step | `steps/` | `STEP-` | no (its parent's) |
+| Decision | `decisions/` | `ADR-` | no; names the rules it shapes |
 
 What each tier needs, how the types relate and what closing them requires:
 `Rules-of-Rules.md`, the module's part (SE-L1, `rr-SE-001` to
@@ -62,6 +63,10 @@ runs it.
   never prompts for a rule target or domain — a step inherits its
   parent's (see `Rules-of-Rules.md` `rr-SE-003`). Refuses if `<REQ-id|BUG-id>`
   doesn't resolve to an existing requirement or bug.
+- `/create adr <title>` (`/create-adr`) — record a decision immediately, register it in
+  `decisions/decisions.md`, with the rules it shapes. Like `/create-feature`,
+  never prompts for a domain: a decision is not grounded, and it is not work
+  (no tier, no steps; see `Rules-of-Rules.md` `rr-SE-005`).
 - `/roadmap add|update|merge|remove <name> [<file>]` (`/roadmap-add`,
   `/roadmap-update`, `/roadmap-merge`, `/roadmap-remove`) — the named
   roadmaps of `development/roadmaps/` (see `Rules-of-Rules.md` `rr-SE-002`):
@@ -219,3 +224,14 @@ in its body, a step starts `done` instead of `planned`, and the dates are
 the day of adoption, never back-dated. When the commit changes tested
 code and adds no test, say so to the user and propose a `/create-test`;
 never mark the gap closed on the commit's behalf.
+
+When the user enters `/create adr: ...` or `/create-adr: ...`, run `catalyst new ADR --title "<t>"
+[--field Rules=<rule IDs>] [--field Supersedes=<ADR-ids>] --command /create-adr --as <signer>`
+(it starts `Proposed` and cites the new decision back in each superseded
+one's `Superseded by`), then write its Context, Decision, Alternatives
+considered and Consequences from what the user said; ask for what is
+missing rather than inventing it. A decision is the person's: set it
+`Accepted` or `Rejected` (`catalyst status set`), with `Decided` and
+`Decided by`, only when they say so (L4), and each decision it supersedes
+`Superseded` in the same turn. Never rewrite an accepted decision: a change
+of mind is a new `ADR-` that supersedes it.
