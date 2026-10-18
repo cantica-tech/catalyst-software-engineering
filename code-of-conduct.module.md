@@ -70,6 +70,8 @@ runs it.
 - `/roadmap add|update|merge|remove <name> [<file>]` (`/roadmap-add`,
   `/roadmap-update`, `/roadmap-merge`, `/roadmap-remove`) — the named
   roadmaps of `development/roadmaps/` (see `Rules-of-Rules.md` `rr-SE-002`):
+  each row may carry a `Start` and a `Due` date (`YYYY-MM-DD`), taken from
+  the source when it gives them, never invented;
   `add <name> <file>` ingests a new one from a local file, creating
   `development/roadmaps/<name>.md` from `templates/roadmap.template.md` and
   registering it in `development/roadmaps/roadmaps.md`, and refuses if
@@ -85,6 +87,11 @@ runs it.
   refresh `development/BACKLOG.md` with the result, and refresh every
   active `development/roadmaps/<name>.md`'s Status/Linked columns from
   the `FEAT-`/`REQ-` each row is linked to.
+
+Work (a bug, a requirement, a house-keeping item, a test, a step) may name
+who does it: add `--field Assignee=<registered user>` to its `catalyst new`
+when the user says, never guessed; `check` warns on a
+name that is no registered user.
 
 When the user enters `/create bug: ...` or `/create-bug: ...`, run `catalyst new BUG --title "<t>"
 --field Targets=<rule IDs> --field Domain=<CODE> --field Severity=<Critical|High|Medium|Low>

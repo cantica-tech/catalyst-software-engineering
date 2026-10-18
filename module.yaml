@@ -1,6 +1,6 @@
 id: software-engineering
 name: Software Engineering Process Module
-version: 3.3.0
+version: 3.4.0
 description: Standard software engineering process module governing requirements, bugs, house-keeping, tests, steps, features, roadmaps, and decisions.
 grounding_type: rule
 format: 3
@@ -44,6 +44,9 @@ entities:
     grounding_field: Targets
     status_hint: "exactly one of `Open` / `Under Review` / `Fixed` / `Closed` / `WontFix` (the bug ETD's `allowed_values`; starts `Open`; `Closed` and `WontFix` are its closed states). A duplicate is closed `WontFix`, naming the original `BUG-` under Related"
     fields:
+      Assignee:
+        kind: user
+        hint: "*(none yet — the registered user doing the work; optional)*"
       Severity:
         kind: enum
         required: true
@@ -115,6 +118,9 @@ entities:
     grounding_field: Targets
     status_hint: "exactly one of `Draft` / `Proposed` / `Vetted` / `Active` / `Completed` / `Abandoned` (the requirement ETD's `allowed_values`; starts `Draft`; `Completed` and `Abandoned` are its closed states)"
     fields:
+      Assignee:
+        kind: user
+        hint: "*(none yet — the registered user doing the work; optional)*"
       Targets:
         kind: ref-list
         required: true
@@ -233,6 +239,9 @@ entities:
     grounding_field: Targets
     status_hint: "exactly one of `Open` / `Completed` (the house-keeping ETD's `allowed_values`; starts `Open`; `Completed` is its closed state)"
     fields:
+      Assignee:
+        kind: user
+        hint: "*(none yet — the registered user doing the work; optional)*"
       Priority:
         kind: enum
         values: [High, Medium, Low]
@@ -271,6 +280,9 @@ entities:
     grounding_field: Targets
     status_hint: "exactly one of `Draft` / `Active` / `Passing` / `Failing` / `Disabled` (the test ETD's `allowed_values`; starts `Draft`; `Passing` is its closed state)"
     fields:
+      Assignee:
+        kind: user
+        hint: "*(none yet — the registered user doing the work; optional)*"
       Targets:
         kind: ref-list
         required: true
@@ -320,6 +332,9 @@ entities:
     grounding_field: Parent
     status_hint: "exactly one of `planned` / `in-progress` / `done` / `abandoned` (the step ETD's `allowed_values`, lowercase; starts `planned`; `done` and `abandoned` are its closed states)"
     fields:
+      Assignee:
+        kind: user
+        hint: "*(none yet — the registered user doing the work; optional)*"
       Parent:
         kind: ref
         required: true
@@ -446,6 +461,12 @@ entities:
       Linked:
         kind: ref-list
         to: [FEAT, REQ]
+      Start:
+        kind: date
+        hint: "YYYY-MM-DD the item is planned to start — optional"
+      Due:
+        kind: date
+        hint: "YYYY-MM-DD the item is due — optional"
     states: ["Not triaged", Triaged, "In progress", Done]
     initial: "Not triaged"
     closed: [Done]
