@@ -10,7 +10,8 @@
 This module's work is bugs (`BUG-`), requirements (`REQ-`), house-keeping
 items (`HK-`) and tests (`TEST-`), each targeting the rules it serves;
 features (`FEAT-`), roadmap items (`RM-`) and steps (`STEP-`) record ideas,
-directions and work done, and target no rule of their own. Their fields,
+directions and work done, and target no rule of their own; decisions
+(`ADR-`) record what was decided and name the rules they shape. Their fields,
 statuses and files are the entity definitions' (`definitions/`) and
 `ARTIFACT-LAYOUT.md`'s.
 
@@ -57,6 +58,19 @@ may name the requirements and steps it verifies (both optional, many to
 many; `catalyst new` and `catalyst link` keep the back-references). A test
 is not `Passing` without its Actual outcome from a real run; `Failing` and
 `Disabled` say why there.
+
+## 5. `rr-SE-005` Decisions are recorded, and superseded, never rewritten
+
+A decision that shapes the project — a choice between alternatives that
+someone later will ask about — is an `ADR-`: its context, the decision,
+the alternatives weighed, its consequences, who took it (a person, never
+an agent) and when, and the rules it shapes (`Rules`). A rule that a
+decision introduces, changes or retires is named there, so the rule's
+view shows the decision behind it. Once `Accepted` or `Rejected` a
+decision is not rewritten: a change of mind is a new decision that names
+it under `Supersedes`, and the old one becomes `Superseded`. A decision is
+not work: it has no tier and no steps, and the work it calls for is a
+requirement, a bug or a chore of its own.
 
 ## Closing work: what `validate` cannot check
 
