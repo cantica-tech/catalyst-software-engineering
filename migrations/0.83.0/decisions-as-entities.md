@@ -1,7 +1,7 @@
 # Migration 0.83.0 (module 3.3.0): decisions are entities
 
-> Applies when a deployment of this module is synchronized to module `3.3.0` (`3.2.x` → `3.3.0`); the module works
-> with kernel `0.69.0` or later, and with `0.83.0` a decision's rules show their strength. Never re-run once applied.
+> Applies when a deployment of this module is synchronized to module `3.3.0` (`3.2.x` → `3.3.0`); the module needs
+> kernel `0.83.0` or later, whose sync makes the new type's folder (an older one brought its definition only). Never re-run once applied.
 
 ## What changed
 
