@@ -29,9 +29,9 @@
 
 ## Items
 
-| ID | Title | Description | Status | Linked | Signed-off-by | Notes |
-|---|---|---|---|---|---|---|
-| `RM-000001-Ab3xR9pQ` (userid suffix = the ingesting user's, `Rules-of-Rules.md` §20) | {{short title, as given by the source file}} | {{a sentence or two summarizing the item, from the source file — not a restatement of Title}} | Not triaged | *(none)* | {{registered user who ran the ingest — see `CODE-OF-CONDUCT.md` §2}} | {{free text}} |
+| ID | Title | Description | Status | Linked | Start | Due | Signed-off-by | Notes |
+|---|---|---|---|---|---|---|---|---|
+| `RM-000001-Ab3xR9pQ` (userid suffix = the ingesting user's, `Rules-of-Rules.md` §20) | {{short title, as given by the source file}} | {{a sentence or two summarizing the item, from the source file — not a restatement of Title}} | Not triaged | *(none)* | {{YYYY-MM-DD or empty}} | {{YYYY-MM-DD or empty}} | {{registered user who ran the ingest — see `CODE-OF-CONDUCT.md` §2}} | {{free text}} |
 
 ## Status values
 
