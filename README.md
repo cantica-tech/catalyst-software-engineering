@@ -95,4 +95,4 @@ this module active, the typical commands per role are:
 ## License
 
 Apache License 2.0 — see `LICENSE`. Contribution and security policies are
-those of the [catalyst](https://github.com/oliben67/catalyst) repository.
+those of the [catalyst](https://github.com/cantica-tech/catalyst) repository.
