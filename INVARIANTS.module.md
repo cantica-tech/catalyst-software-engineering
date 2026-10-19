@@ -32,7 +32,7 @@ a kernel invariant and keep its number.
 | INV-SE-1 requirements, not bugs, for new work | SE-L1 | `validate` |
 | INV-SE-2 persisted backlog | L6 | `/show-backlog` regenerates it, `check` |
 | INV-SE-3 machine-maintained roadmaps | L6 | `/roadmap`, `check` |
-| INV-16 advisory role signing (module part) | L7, L4 | `check` |
+| INV-16 role signing (module part) | L7, L4 | `check`, every writing verb |
 | INV-26 signed entity IDs (module part) | L7 | `id next`, `check` |
 | INV-SE-4 ceremony follows the tier | L2, SE-L1 | journal `tier`, `required_when_closed`, `check` |
 | INV-SE-5 tests with optional links | L6 | `/create-test` back-references, `check` |
@@ -63,10 +63,11 @@ a kernel invariant and keep its number.
   by `/roadmap` and `/show-backlog` — never hand-edited.
   `/roadmap remove` never deletes a roadmap with linked items; it retires
   it in place.
-- **INV-16 — Advisory role signing *(module part)*.** Every dev-artifact
+- **INV-16 — Role signing *(module part)*.** Every dev-artifact
   (`BUG-`/`REQ-`/`HK-`/`TEST-`), step, feature, and roadmap item carries a
-  `Signed-off-by` field, checked against `IAM/roles/roles.json` in the same
-  advisory way as the kernel's.
+  `Signed-off-by` field; with kernel 0.93.0 or later, its signer's roles
+  must grant the command that writes it (`/create`, or its alias such as
+  `/create-req`; `/status`), as for the kernel's.
 - **INV-26 — Signed entity IDs *(module part)*.** Every `BUG-`/`REQ-`/
   `HK-`/`TEST-`, `FEAT-`, `RM-`, and `STEP-` ID carries its
   creator/signer's `userid` as a trailing `-XXXXXXXX` suffix, assigned once
