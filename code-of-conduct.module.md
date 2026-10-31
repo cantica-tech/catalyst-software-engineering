@@ -10,7 +10,8 @@
 > `CODE-OF-CONDUCT.md`'s; meta-rules are cited by their stable
 > `rr-META-NNN` IDs, which this module's `rules-of-rules.module.md` keeps.
 > Every command bullet in §4 below has a matching entry in `module.yaml`'s
-> `commands`, and a matching task in `Taskfile.module.yml`.
+> `commands`; the kernel generates the criterion's Taskfile tasks from the
+> §4 command headings (kernel 0.70.0), so the module ships no Taskfile.
 
 ## 3. Standard document types
 
