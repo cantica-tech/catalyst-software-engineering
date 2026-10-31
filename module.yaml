@@ -525,5 +525,4 @@ contributions:
   rules_of_rules: rules-of-rules.module.md
   code_of_conduct: code-of-conduct.module.md
   invariants: INVARIANTS.module.md
-  taskfile: Taskfile.module.yml
   migrations: migrations/
