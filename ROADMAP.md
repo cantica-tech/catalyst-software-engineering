@@ -1,6 +1,11 @@
 # Roadmap: Modularization & Separation of Software Engineering
 
-**Status:** Draft / Proposed  
+> **Historical.** This roadmap is done: the module has stood on its own since catalyst's module format v3
+> (module 3.0.0). It is kept as a record only; the names it uses (`framework/…` paths, `schemas/`, `commands/`,
+> `modules/software-engineering/`, the old rule and invariant IDs) are retired. The module's current shape is
+> `module.yaml` and `code-of-conduct.module.md`.
+
+**Status:** Done (historical; was Draft / Proposed)  
 **Target Framework:** Catalyst (the catalyst repository's `framework/`)  
 **Home:** this module's repository (`catalyst-software-engineering`). Moved
 here from the catalyst repository root, where it lived as
