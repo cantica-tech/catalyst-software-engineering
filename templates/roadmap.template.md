@@ -36,11 +36,11 @@
 ## Status values
 
 - **Not triaged** — ingested; no `FEAT-`/`REQ-` for it yet (`Linked` empty).
-- **Triaged** — a `FEAT-NNNNNN` exists for this item (see its `Roadmap` field); `Linked` names only that `FEAT-`.
-- **In progress** — at least one `REQ-NNNNNN` is linked and at least one of them isn't yet in a closed state (`Completed`/`Abandoned`).
-- **Done** — **every** linked `REQ-NNNNNN` is in a closed state (`Completed`/`Abandoned`).
+- **Done** — **every** linked item, `FEAT-NNNNNN` and `REQ-NNNNNN` alike, is in a closed state of its type (`Completed`/`Abandoned` for both), all-`Abandoned` included.
+- **In progress** — not `Done`, and at least one `REQ-NNNNNN` is linked.
+- **Triaged** — not `Done`, and `Linked` names only `FEAT-NNNNNN`s (see their `Roadmap` field).
 
-These four are the roadmap ETD's `allowed_values`, exactly as spelled; `Done` is its only closed state.
+`/show-backlog` applies them in that order, the first that holds wins (`CODE-OF-CONDUCT.md` §4). These four are the roadmap ETD's `allowed_values`, exactly as spelled; `Done` is its only closed state.
 
 ## How this file is maintained
 

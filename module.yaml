@@ -1,6 +1,6 @@
 id: software-engineering
 name: Software Engineering Process Module
-version: 3.5.0
+version: 3.6.0
 description: Standard software engineering process module governing requirements, bugs, house-keeping, tests, steps, features, roadmaps, and decisions.
 grounding_type: rule
 format: 3
@@ -470,7 +470,7 @@ entities:
     states: ["Not triaged", Triaged, "In progress", Done]
     initial: "Not triaged"
     closed: [Done]
-    definition: "A named roadmap file (`development/roadmaps/<name>.md`) holds a table of `RM- NNNNNN` rows — externally-sourced product ideas ingested via `/roadmap add`, kept current via `/roadmap update|merge`, with `Status`/`Linked` columns refreshed by `/show-backlog` as rows get triaged into real `FEAT-`/`REQ-` work. Unlike every other artifact type, a roadmap file isn't filled in once by hand — it's a living, externally-fed table, registered in `development/roadmaps/roadmaps.md`."
+    definition: "A named roadmap file (`development/roadmaps/<name>.md`) holds a table of `RM- NNNNNN` rows — externally-sourced product ideas ingested via `/roadmap add`, kept current via `/roadmap update|merge`, with `Status`/`Linked` columns refreshed by `/show-backlog` as rows get triaged into real `FEAT-`/`REQ-` work; a row is `Done` once every linked `FEAT-` and `REQ-` is in its type's closed state (the rule in `CODE-OF-CONDUCT.md` §4, `/show-backlog`). Unlike every other artifact type, a roadmap file isn't filled in once by hand — it's a living, externally-fed table, registered in `development/roadmaps/roadmaps.md`."
 
 commands:
   - name: create-req
