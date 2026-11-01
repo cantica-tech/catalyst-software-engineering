@@ -1,6 +1,6 @@
 id: software-engineering
 name: Software Engineering Process Module
-version: 3.6.0
+version: 3.7.0
 description: Standard software engineering process module governing requirements, bugs, house-keeping, tests, steps, features, roadmaps, and decisions.
 grounding_type: rule
 format: 3
@@ -19,7 +19,7 @@ aliases:
   INV-15: INV-SE-3
   INV-27: INV-SE-4
   INV-28: INV-SE-5
-kernel_version: ">=0.83.0"
+kernel_version: ">=0.122.0"
 
 # Ceremony tiers (rr-META-006, kernel >=0.55.0 reads them; an older kernel
 # applies the same three by default). SE-L1: the tier decides the artifact.
@@ -39,6 +39,7 @@ entities:
   BUG:
     name: "Bug"
     folder: bugs
+    created_by: /create-bug
     location: development
     grounding: required
     grounding_field: Targets
@@ -114,6 +115,7 @@ entities:
   REQ:
     name: "Requirement"
     folder: requirements
+    created_by: /create-req
     grounding: required
     grounding_field: Targets
     status_hint: "exactly one of `Draft` / `Proposed` / `Vetted` / `Active` / `Completed` / `Abandoned` (the requirement ETD's `allowed_values`; starts `Draft`; `Completed` and `Abandoned` are its closed states)"
@@ -276,6 +278,7 @@ entities:
   TEST:
     name: "Test"
     folder: tests
+    created_by: /create-test
     grounding: required
     grounding_field: Targets
     status_hint: "exactly one of `Draft` / `Active` / `Passing` / `Failing` / `Disabled` (the test ETD's `allowed_values`; starts `Draft`; `Passing` is its closed state)"
@@ -328,6 +331,7 @@ entities:
   STEP:
     name: "Step"
     folder: steps
+    created_by: /create-step
     grounding: inherited
     grounding_field: Parent
     status_hint: "exactly one of `planned` / `in-progress` / `done` / `abandoned` (the step ETD's `allowed_values`, lowercase; starts `planned`; `done` and `abandoned` are its closed states)"
@@ -377,6 +381,7 @@ entities:
   FEAT:
     name: "Feature"
     folder: features
+    created_by: /create-feature
     grounding: none
     status_hint: "exactly one of `Draft` / `Triaged` / `Active` / `Completed` / `Abandoned` (the feature ETD's `allowed_values`; starts `Draft`; `Completed` and `Abandoned` are its closed states)"
     fields:
@@ -413,6 +418,7 @@ entities:
   ADR:
     name: "Decision"
     folder: decisions
+    created_by: /create-adr
     grounding: none
     status_hint: "exactly one of `Proposed` / `Accepted` / `Rejected` / `Superseded` (the decision ETD's `allowed_values`; starts `Proposed`; `Accepted`, `Rejected` and `Superseded` are its closed states)"
     fields:
