@@ -205,11 +205,14 @@ roadmap name then Status;
 `templates/backlog.template.md`'s structure, with a refreshed timestamp),
 **also refresh every active `development/roadmaps/<name>.md`** in place —
 for each `RM-NNNNNN` row, resolve every `FEAT-`/`REQ-` its `Linked` field
-names (if any — it's a list, not a single id) and set `Status` to
-`Not triaged` (nothing linked) / `Triaged` (only a `FEAT-` linked) /
-`In progress` (at least one linked `REQ-` isn't yet `Completed` or
-`Abandoned`) / `Done` (every linked `REQ-` is `Completed` or `Abandoned`)
-accordingly, leaving `Title`/`Notes`/`Source`
+names (if any — it's a list, not a single id) and set `Status` by the
+first of these that holds: `Not triaged` — nothing linked; `Done` — every
+linked item, `FEAT-` and `REQ-` alike, is in a closed state of its type
+(`Completed` or `Abandoned` for both; a row whose linked items are all
+`Abandoned` is `Done` too); `In progress` — at least one `REQ-` is linked
+(and, the row not being `Done`, some linked item is still open);
+`Triaged` — only `FEAT-`s are linked and at least one of them is open;
+leaving `Title`/`Notes`/`Source`
 untouched; journal any roadmap row whose `Status` changed with
 `catalyst journal append --action status-change` — and also report the
 same summary to the user in this turn. No
