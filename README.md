@@ -80,13 +80,15 @@ Each entity type gets the kernel's uniform artifact-type shape (kernel
 
 ## Suggested role actions
 
-The kernel's default `roles.json` phrases role actions generically. With
-this module active, the typical commands per role are:
+The kernel's default `roles.json` phrases role actions generically. This
+module grants Product Owner and Scrum Master `/roadmap` and `/show-backlog`
+(`roles` in `module.yaml`, merged in by `catalyst role document`). Beyond
+those grants, the typical commands per role are:
 
 | Role | Module commands |
 |---|---|
-| Product Owner | `/create-req`, approve/prioritize requirements, `/create-feature`, `/roadmap` |
-| Scrum Master / Delivery Lead | `/show-backlog` |
+| Product Owner | `/create-req`, approve/prioritize requirements, `/create-feature`, `/roadmap`, `/show-backlog` |
+| Scrum Master / Delivery Lead | `/show-backlog`, `/roadmap` |
 | Tech Lead / Architect | vet a requirement's rule target(s) |
 | Developer | `/create-bug`, `/create-req` (implementation-driven), implement `REQ-`/`BUG-` |
 | QA / Tester | `/create-bug`, `/create-test`, verify a rule's test coverage |
